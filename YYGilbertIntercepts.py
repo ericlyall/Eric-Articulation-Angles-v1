@@ -8,7 +8,7 @@ import itertools
 import time
 from PIL import Image
 
-
+#Hello. I love GitHub!!
 class BFlexAngle:
 
     def __init__(self, png_img):
