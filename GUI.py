@@ -30,24 +30,29 @@ class MainWindowWidget(QtWidgets.QWidget):
         super(MainWindowWidget, self).__init__()
 
         # Button that allows loading of images
-        self.load_button = QtWidgets.QPushButton("Load image")
+        self.load_button = QtWidgets.QPushButton("Load Bronchoscope image")
         self.load_button.clicked.connect(self.load_image_but)
 
-        # Image viewing region
-        self.lbl = QtWidgets.QLabel(self)
+        # Image viewing region 1
+        self.lbl_1 = QtWidgets.QLabel(self)
+
+        # Image viewing region 2
+        self.lbl_2 = QtWidgets.QLabel(self)
 
         # A horizontal layout to include the button on the left
         layout_button = QtWidgets.QHBoxLayout()
         layout_button.addWidget(self.load_button)
 
+        #This is to make the text box
         self.logOutput = QtWidgets.QTextEdit(self)
         self.logOutput.setReadOnly(True)
         self.logOutput.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
         font = self.logOutput.font()
         font.setFamily("Courier")
-        font.setPointSize(10)
+        font.setPointSize(14)
 
+        # This adds the textbox to the layout
         layout_button.addWidget(self.logOutput)
 
         layout_button.addStretch()
@@ -55,7 +60,8 @@ class MainWindowWidget(QtWidgets.QWidget):
         # A Vertical layout to include the button layout and then the image
         layout = QtWidgets.QVBoxLayout()
         layout.addLayout(layout_button)
-        layout.addWidget(self.lbl)
+        layout.addWidget(self.lbl_1) #Adding some space for lbl_1
+        layout.addWidget(self.lbl_2) #Adding some space for lbl_2
 
         self.setLayout(layout)
 
@@ -80,15 +86,20 @@ class MainWindowWidget(QtWidgets.QWidget):
         Set the image to the pixmap
         :return:
         """
-        pixmap = QtGui.QPixmap(self.fname)
-        pixmap = pixmap.scaled(500, 500, QtCore.Qt.KeepAspectRatio)
-        self.lbl.setPixmap(pixmap)
+        ## shows initial image
+        pixmap_1 = QtGui.QPixmap(self.fname)
+        pixmap_1 = pixmap_1.scaled(500, 500, QtCore.Qt.KeepAspectRatio)
+        self.lbl_1.setPixmap(pixmap_1)
 
-
-
+        ## Runs the angle calculations, and loads it. Writes the angle to the GUI window.
         solve_img = BFlexAngle(Image.open(self.fname))
         self.logOutput.setText(str(solve_img.DriverFunction()))
         print(solve_img.DriverFunction())
+
+        # shows solved image
+        pixmap_2= solve_img.array_img  #TODO- MATTHEW??? obviouslu there are a ton of type errors here- but I would like to have this image pop up on the GUI.
+        pixmap_2 = pixmap_2.scaled(500, 500, QtCore.Qt.KeepAspectRatio)
+        self.lbl_1.setPixmap(pixmap_2)
 
     # The following three methods set up dragging and dropping for the app
     def dragEnterEvent(self, e):
