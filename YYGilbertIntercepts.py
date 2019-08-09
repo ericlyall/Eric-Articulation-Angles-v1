@@ -15,6 +15,7 @@ class BFlexAngle:
         png_img1=png_img.rotate(90)
         array_img1 = np.array(png_img1)
         # crop= array_img1
+        #crop = array_img1[600:2000, 1200:4400]  # On Angle
         #crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
         # crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
         # crop = array_img1[200:1200, 500:1900]  # small b flex screen clip
@@ -329,6 +330,6 @@ black.
 
 start_time = time.time()
 # #super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3395.jpg")
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Verification Tips\IMG_0283.jpg")
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
 yeet = BFlexAngle(super_image)
 yeet.DriverFunction()

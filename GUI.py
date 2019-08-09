@@ -84,6 +84,8 @@ class MainWindowWidget(QtWidgets.QWidget):
         pixmap = pixmap.scaled(500, 500, QtCore.Qt.KeepAspectRatio)
         self.lbl.setPixmap(pixmap)
 
+
+
         solve_img = BFlexAngle(Image.open(self.fname))
         self.logOutput.setText(str(solve_img.DriverFunction()))
         print(solve_img.DriverFunction())

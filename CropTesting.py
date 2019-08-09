@@ -11,10 +11,10 @@ from PIL import Image
 class learnHough:
     def __init__(self, png_img):
         self.png_img= png_img
-        # array_img1 = np.array(png_img)
-        # crop = array_img1[400:2600, 700:4400]  # small b flex 502-...
-        # self.array_img = crop
-        self.array_img=np.array(png_img)
+        array_img1 = np.array(png_img)
+        crop = array_img1[600:4000, 700:4400]  # small b flex 502-...
+        self.array_img = crop
+        # self.array_img=np.array(png_img)
         # self.array_img=cv2.addWeighted(self.array_img,.4,self.array_img,1,0)
         # self.array_img = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         # (thresh, self.array_img) = cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
@@ -54,7 +54,7 @@ class learnHough:
         image_height = int(self.array_img.shape[0])
         print(image_height, image_width)
         counter = 0
-        while counter < 30:
+        while counter < 35:
             for rho, theta in lines[counter]:
                 # print("Rho =", rho, "Theta =", theta)
                 line = self.getVectorForm(rho, theta)
@@ -68,7 +68,7 @@ class learnHough:
 
 #C:\Users\eric1\Google Drive\Verathon Medical\Small B-flex
 
-png_image =  Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0308.jpg").rotate(0)
+png_image =  Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg").rotate(90)
 
 yeet= learnHough(png_image)
 yeet.HoughLines()
