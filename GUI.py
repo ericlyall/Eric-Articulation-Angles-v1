@@ -97,9 +97,9 @@ class MainWindowWidget(QtWidgets.QWidget):
         print(solve_img.DriverFunction())
 
         # shows solved image
-        pixmap_2= solve_img.array_img  #TODO- MATTHEW??? obviouslu there are a ton of type errors here- but I would like to have this image pop up on the GUI.
-        pixmap_2 = pixmap_2.scaled(500, 500, QtCore.Qt.KeepAspectRatio)
-        self.lbl_1.setPixmap(pixmap_2)
+        # pixmap_2= solve_img.array_img  #TODO- MATTHEW??? obviouslu there are a ton of type errors here- but I would like to have this image pop up on the GUI.
+        # pixmap_2 = pixmap_2.scaled(500, 500, QtCore.Qt.KeepAspectRatio)
+        # self.lbl_1.setPixmap(pixmap_2)
 
     # The following three methods set up dragging and dropping for the app
     def dragEnterEvent(self, e):

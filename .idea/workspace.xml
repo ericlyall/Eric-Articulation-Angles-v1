@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d941405d-7e56-406a-a31b-ded3904ce05e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/PairsGilbertIntercepts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YYGilbertIntercepts.py" beforeDir="false" afterPath="$PROJECT_DIR$/YYGilbertIntercepts.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,11 +27,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/YYGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="223" column="69" lean-forward="true" selection-start-line="223" selection-start-column="69" selection-end-line="223" selection-end-column="69" />
+            <state relative-caret-position="-137">
+              <caret line="302" column="25" selection-start-line="302" selection-start-column="25" selection-end-line="302" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="203">
+              <caret line="217" column="12" lean-forward="true" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -52,8 +66,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="105" column="32" selection-start-line="105" selection-start-column="32" selection-end-line="105" selection-end-column="32" />
+            <state relative-caret-position="68">
+              <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
               <folding>
                 <element signature="e#0#79#0" expanded="true" />
               </folding>
@@ -92,9 +106,10 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/AddTest.py" />
         <option value="$PROJECT_DIR$/CropTesting.py" />
-        <option value="$PROJECT_DIR$/GUI.py" />
         <option value="$PROJECT_DIR$/test_BFlexAngle.py" />
+        <option value="$PROJECT_DIR$/GUI.py" />
         <option value="$PROJECT_DIR$/YYGilbertIntercepts.py" />
+        <option value="$PROJECT_DIR$/PairsGilbertIntercepts.py" />
       </list>
     </option>
   </component>
@@ -144,7 +159,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.YYGilbertIntercepts">
+  <component name="RunManager" selected="Python.PairsGilbertIntercepts">
     <configuration name="CropTesting" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Eric Articulation Angle v0" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -187,6 +202,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="PairsGilbertIntercepts" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Eric Articulation Angle v0" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PairsGilbertIntercepts.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="YYGilbertIntercepts" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Eric Articulation Angle v0" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -210,6 +246,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.PairsGilbertIntercepts" />
         <item itemvalue="Python.YYGilbertIntercepts" />
         <item itemvalue="Python.GUI" />
         <item itemvalue="Python.CropTesting" />
@@ -276,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565466146020</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="About to properly implement part 1 on the pairs algorithm">
+      <created>1565473163840</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1565473163840</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -310,15 +354,16 @@
     <MESSAGE value="Have a type error trying to put the image with lines drawn into the pixmap, line 100-101 under GUI. Usually this function takes in a file path- I don't really wanna make and the destroy a fake file every time," />
     <MESSAGE value="Adding testing suite from Antares Large" />
     <MESSAGE value="Fixed the out of bounds error for finding y-intercept." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed the out of bounds error for finding y-intercept." />
+    <MESSAGE value="About to properly implement part 1 on the pairs algorithm" />
+    <option name="LAST_COMMIT_MESSAGE" value="About to properly implement part 1 on the pairs algorithm" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/YYGilbertIntercepts.py</url>
-          <line>218</line>
-          <option name="timeStamp" value="3" />
+          <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
+          <line>250</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -351,16 +396,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="105" column="32" selection-start-line="105" selection-start-column="32" selection-end-line="105" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#79#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_BFlexAngle.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1649">
@@ -371,10 +406,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
+          <folding>
+            <element signature="e#0#79#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/YYGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="223" column="69" lean-forward="true" selection-start-line="223" selection-start-column="69" selection-end-line="223" selection-end-column="69" />
+        <state relative-caret-position="-137">
+          <caret line="302" column="25" selection-start-line="302" selection-start-column="25" selection-end-line="302" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="217" column="12" lean-forward="true" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
