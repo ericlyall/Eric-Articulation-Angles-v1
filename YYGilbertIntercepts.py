@@ -17,7 +17,7 @@ class BFlexAngle:
         # crop= array_img1
         #crop = array_img1[600:2000, 1200:4400]  # On Angle
         #crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
-        # crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
+        crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
         # crop = array_img1[200:1200, 500:1900]  # small b flex screen clip
         #crop = array_img1[350:2300, 700:4200]  # verification clip
         #crop = array_img1[800:2700, 700:4400]  ## 4.61 MB images. IMG_0467,0468
@@ -25,7 +25,7 @@ class BFlexAngle:
         #crop = array_img1[250:1040, 270:1700]  ## 812 KB images, IMG 0471, 0472
         #crop = array_img1[50:330, 100:530]  ##  104 KB images, IMG_0473, 0474
         #crop = array_img1[300:1000, 300:1680]  #for  1990-1997
-        crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
+        #crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
         self.array_img = crop # this will be used in all functions concerning open cv2
         self.png_img=Image.fromarray(self.array_img)# this will be used in all funciions concerning pythons PIL image library
         self.masterlist = []  # This will contain the top HoughLines, in a list format containing two
@@ -196,26 +196,35 @@ class BFlexAngle:
         else:
             return False ## means articulation angle is not past 180
 
+    def search(self,start_index, line,avg_fam_sized):
+        while start_index<len(avg_fam_sized):
+            if self.similarSlope(line,avg_fam_sized[start_index])==True: ##TODO avg family list needs to be sorted by size first
+                return start_index
+            else:
+                start_index+=1
+        return start_index
+
     def getFinalAngle(self):
         self.grouped_list.sort(key=len, reverse=True)
         average_family_list = []
         counter = 0
 
         while counter < 4 and counter < len(self.grouped_list):
-            # self.grouped_list[counter].sort(key=lambda y: y[0][1])
-            # del self.grouped_list[counter][0]
-            # del self.grouped_list[counter][len(self.grouped_list[counter])-1]
             average_family_list.append(self.get_bin_angle(self.grouped_list[counter]))
             self.draw_line(average_family_list[counter], 0, 0, 255)
             counter += 1
+        avg_fam_sized=average_family_list.copy()
         average_family_list.sort(key=lambda x: x[2][0])  # TODO- this isn't good enough- need to also look for pairs.
         # Now, the first two are in one group, the second two in another.
-        left_line = [average_family_list[0], average_family_list[1]]
-        right_line = [average_family_list[2], average_family_list[3]]
+        a=0;b=1;c=2;d=3
+        left_line = [average_family_list[a], average_family_list[b]]
+        if self.similarSlope(left_line[0],left_line[1],.15)==False:
+            print("Error, articulation angle inaccurate. Measure on Solidworks")
+        right_line = [average_family_list[c], average_family_list[d]]
+        if self.similarSlope(right_line[0],right_line[1],.15)==False:
+            print("Error, articulation angle inaccurate. Measure on Solidworks")
         actual_left = self.get_bin_angle(left_line)
-        #print("Left Line:",actual_left)
         actual_right = self.get_bin_angle(right_line)
-        #print("Right Line",actual_right)
         self.draw_line(actual_left, 0, 255, 0)
         self.draw_line(actual_right, 255, 0, 0)
         if(actual_left[1][1]*actual_right[1][1]>0):  ##makes sure the 2 vectors are in opposite diretions, so the angle is the large one (170 rather than 10)
@@ -232,10 +241,6 @@ class BFlexAngle:
 The purpose of this method is to "filter" the image, making everything that's not the colour of the bronchoscope (mostly white)
 black.
         """
-        """
- The purpose of this method is to "filter" the image, making everything that's not the colour of the bronchoscope (mostly white)
- black.
-        #  """
         # self.array_img=cv2.addWeighted(self.array_img,50,self.array_img,1,0)
         # self.array_img=cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         #
@@ -320,7 +325,7 @@ black.
 
 
 start_time = time.time()
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3176.jpg")
-#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
+#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3396.jpg")
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Small B-flex\IMG_0508.jpg")
 yeet = BFlexAngle(super_image)
 yeet.DriverFunction(start_time)
