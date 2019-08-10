@@ -19,18 +19,20 @@ class BFlexAngle:
         #crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
         # crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
         # crop = array_img1[200:1200, 500:1900]  # small b flex screen clip
-        crop = array_img1[350:2300, 700:4200]  # verification clip
+        #crop = array_img1[350:2300, 700:4200]  # verification clip
         #crop = array_img1[800:2700, 700:4400]  ## 4.61 MB images. IMG_0467,0468
         #crop = array_img1[500:1900, 500:3000]  ## 2.45 MB images, IMG_ 0469. 0470
         #crop = array_img1[250:1040, 270:1700]  ## 812 KB images, IMG 0471, 0472
         #crop = array_img1[50:330, 100:530]  ##  104 KB images, IMG_0473, 0474
         #crop = array_img1[300:1000, 300:1680]  #for  1990-1997
-        #crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
+        crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
         self.array_img = crop # this will be used in all functions concerning open cv2
         self.png_img=Image.fromarray(self.array_img)# this will be used in all funciions concerning pythons PIL image library
         self.masterlist = []  # This will contain the top HoughLines, in a list format containing two
         # vectors: start vector, and travel vector
         self.grouped_list = []  # This will contain lists (families) of similar lines
+        self.width= self.array_img.shape[1]
+        self.height=self.array_img.shape[0]
 
     def getVectorForm(self, rho, theta):
         """
@@ -144,7 +146,7 @@ class BFlexAngle:
         line= np.array(line)
         y_int=self.array_img.shape[0]/3
         y_int_line=[[1500,y_int],[1,0]]
-        # self.draw_line(y_int_line,50,150,200)
+        self.draw_line(y_int_line,50,150,200)
         start=-1
         travel=-1
         travel_vect=np.array(line[1])
@@ -165,20 +167,13 @@ class BFlexAngle:
             point=np.add(point,walk*2)
             if abs(point[1]-y_int)<3:
                 int_found=True
-                if point[0]<0:
-                    #print("Error- no intercept found")
+            else: ## Checks to make sure the point is not outside the bound of the image.
+                if not -1*self.width <= point[0] <= self.width :
+                    print("No Y-Intercept found", point[0], self.array_img.shape[1])
                     return False
-
-            ##makes sure the y-intercept is withing the bounds of the image.
-            if point[0]>self.array_img.shape[1] or point[1]>self.array_img.shape[0]:   ## TODO checking if in width, height values within picture range. need to also check if it gets negative.
-                #print("Error- no intercept found")
-                return False
-
-            ##this next section ensures the y-intercept is actually found within the dimension of the image. Deals with negative boundarites.
-            #Explanation found in report.  The values are each checked against the most negative possible x and y vals respectively.
-            if point[0] < self.array_img.shape[1]*np.cos(3/4*np.pi) or point[1] < self.array_img.shape[0]*np.sin(3/4*np.pi)*-1:
-                print("Error- no intercept found")
-                return False
+                if not -1 * self.height <= point[1] <= self.height:
+                    print("No Y-Intercept found", point[1], self.array_img.shape[0])
+                    return False
         return point
 
     def edgecase180(self, line1, line2):
@@ -244,28 +239,28 @@ black.
         # self.array_img=cv2.addWeighted(self.array_img,50,self.array_img,1,0)
         # self.array_img=cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         #
-        (thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
+        # (thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
 
-        # pixelMap = self.png_img.load()
-        # pixel_values = list(self.png_img.getdata())
-        # flag = 0
-        # for i in range(self.png_img.size[0]):  # for every pixel:
-        #     for j in range(self.png_img.size[1]):
-        #         a = pixelMap[i, j]
-        #         # average=(a[0]+a[1]+a[2])/3
-        #         for check in a:  # This acts as a colout similarity test
-        #             # the first number checks to make sure r,g,b are all close to eachother.
-        #             # second number ensures rgb vals are high, like the colour white.
-        #             # if abs(check-average)>50 or check < 150:   # was 50 and 150. 165 now working well
-        #             if check < 165:
-        #                 flag = 1
-        #         if flag == 1:  # When the flag = 1, that means the pixel is not white/ fails colour similarity. Pixel is replaced with black.
-        #             pixelMap[i, j] = (0, 0, 0)
-        #         else:
-        #             pixelMap[i, j] = (a[0], a[1], a[
-        #                 2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
-        #         flag = 0
-        # self.array_img = np.array(self.png_img)
+        pixelMap = self.png_img.load()
+        pixel_values = list(self.png_img.getdata())
+        flag = 0
+        for i in range(self.png_img.size[0]):  # for every pixel:
+            for j in range(self.png_img.size[1]):
+                a = pixelMap[i, j]
+                # average=(a[0]+a[1]+a[2])/3
+                for check in a:  # This acts as a colout similarity test
+                    # the first number checks to make sure r,g,b are all close to eachother.
+                    # second number ensures rgb vals are high, like the colour white.
+                    # if abs(check-average)>50 or check < 150:   # was 50 and 150. 165 now working well
+                    if check < 165:
+                        flag = 1
+                if flag == 1:  # When the flag = 1, that means the pixel is not white/ fails colour similarity. Pixel is replaced with black.
+                    pixelMap[i, j] = (0, 0, 0)
+                else:
+                    pixelMap[i, j] = (a[0], a[1], a[
+                        2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
+                flag = 0
+        self.array_img = np.array(self.png_img)
 
 
         # pixelMap = self.png_img.load()
@@ -290,8 +285,8 @@ black.
         #         flag = 0
         # self.array_img = np.array(self.png_img)
         gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
-        #edges = cv2.Canny(gray, 50, 150, apertureSize=3) #was 50, 150
-        edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
+        edges = cv2.Canny(gray, 50, 150, apertureSize=3) #was 50, 150
+        #edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
 
         lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)
         image_width = int(self.array_img.shape[1])
@@ -310,26 +305,22 @@ black.
                     self.draw_line(line, 225, 0, 225)
             counter += 1
 
-    def DriverFunction(self):
+    def DriverFunction(self, start_time):
         self.imageFilter()
         binA = []
         binA.extend(self.masterlist)
         self.pls_group(binA)
         artic_angle = self.getFinalAngle()
-        # cv2.resize(self.array_img,(1080,720))
-        # cv2.imshow("ye",self.array_img)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-        # print("--- %s seconds ---" % (time.time() - start_time))
-        # plot.figure(figsize=(15, 15))
-        # plot.text(5, 5, artic_angle, bbox=dict(facecolor='red', alpha=0.9))
-        # plot.imshow(self.array_img)
-        # plot.show()
+        print("--- %s seconds ---" % (time.time() - start_time))
+        plot.figure(figsize=(15, 15))
+        plot.text(5, 5, artic_angle, bbox=dict(facecolor='red', alpha=0.9))
+        plot.imshow(self.array_img)
+        plot.show()
         return artic_angle
 
 
 start_time = time.time()
-# #super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3395.jpg")
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3176.jpg")
+#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
 yeet = BFlexAngle(super_image)
-yeet.DriverFunction()
+yeet.DriverFunction(start_time)
