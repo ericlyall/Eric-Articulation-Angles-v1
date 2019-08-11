@@ -2,10 +2,9 @@ from __future__ import division, unicode_literals, print_function, absolute_impo
 
 import platform
 import sys
-
+import numpy as np
 import cv2
 import math
-import numpy as np
 from PIL import Image, ImageQt
 from PySide2 import QtGui, QtCore, QtWidgets
 
@@ -13,8 +12,8 @@ from PySide2 import QtGui, QtCore, QtWidgets
 
 # Use NSURL as a workaround to pyside/Qt4 behaviour for dragging and dropping on OSx
 op_sys = platform.system()
-if op_sys == 'Darwin':
-    from Foundation import NSURL
+# if op_sys == 'Darwin':
+#     from Foundation import NSURL
 
 
 class BFlexAngle:
