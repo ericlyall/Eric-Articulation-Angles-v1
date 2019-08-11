@@ -3,6 +3,7 @@ from PySide2 import QtGui, QtCore, QtWidgets
 import sys
 import platform
 from YYGilbertIntercepts import BFlexAngle
+
 import matplotlib.pyplot as plot
 import numpy as np
 import imageio
@@ -11,7 +12,7 @@ import cv2
 import math
 import itertools
 import time
-from PIL import Image
+from PIL import Image, ImageQt
 
 # Use NSURL as a workaround to pyside/Qt4 behaviour for dragging and dropping on OSx
 op_sys = platform.system()
@@ -28,7 +29,7 @@ class MainWindowWidget(QtWidgets.QWidget):
 
     def __init__(self):
         super(MainWindowWidget, self).__init__()
-
+        # QtWidgets.QWidget.showFullScreen(MainWindowWidget)
         # Button that allows loading of images
         self.load_button = QtWidgets.QPushButton("Load Bronchoscope image")
         self.load_button.clicked.connect(self.load_image_but)
@@ -42,33 +43,38 @@ class MainWindowWidget(QtWidgets.QWidget):
         # A horizontal layout to include the button on the left
         layout_button = QtWidgets.QHBoxLayout()
         layout_button.addWidget(self.load_button)
+        #layout_button.addWidget(self.lbl_2) #Adding some space for lbl_2
+
 
         #This is to make the text box
         self.logOutput = QtWidgets.QTextEdit(self)
         self.logOutput.setReadOnly(True)
         self.logOutput.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
+        self.logOutput.resize(1000,100)
 
         font = self.logOutput.font()
         font.setFamily("Courier")
-        font.setPointSize(14)
+        font.setPointSize(15)
 
         # This adds the textbox to the layout
         layout_button.addWidget(self.logOutput)
 
-        layout_button.addStretch()
+        # layout_button.addStretch()
 
         # A Vertical layout to include the button layout and then the image
         layout = QtWidgets.QVBoxLayout()
         layout.addLayout(layout_button)
-        layout.addWidget(self.lbl_1) #Adding some space for lbl_1
-        layout.addWidget(self.lbl_2) #Adding some space for lbl_2
-
+        #layout.addWidget(self.lbl_1) #Adding some space for lbl_1
+        layout_button2 = QtWidgets.QHBoxLayout()
+        layout.addLayout(layout_button2)
+        layout_button2.addWidget(self.lbl_2)
+        layout_button2.addWidget(self.lbl_1)
         self.setLayout(layout)
 
         # Enable dragging and dropping onto the GUI
         self.setAcceptDrops(True)
 
-        self.show()
+        self.showMaximized()
 
     def load_image_but(self):
         """
@@ -88,18 +94,23 @@ class MainWindowWidget(QtWidgets.QWidget):
         """
         ## shows initial image
         pixmap_1 = QtGui.QPixmap(self.fname)
-        pixmap_1 = pixmap_1.scaled(500, 500, QtCore.Qt.KeepAspectRatio)
+        pixmap_1 = pixmap_1.scaled(2000, 2000, QtCore.Qt.KeepAspectRatio)
         self.lbl_1.setPixmap(pixmap_1)
 
         ## Runs the angle calculations, and loads it. Writes the angle to the GUI window.
         solve_img = BFlexAngle(Image.open(self.fname))
-        self.logOutput.setText(str(solve_img.DriverFunction()))
-        print(solve_img.DriverFunction())
+
+        newfont=QtGui.QFont("Times", 20,QtGui.QFont.Bold)
+        self.logOutput.setFont(newfont)
+        self.logOutput.setText("The articulation angle is:"+str(solve_img.DriverFunction()))
+        # print(solve_img.DriverFunction())
 
         # shows solved image
-        # pixmap_2= solve_img.array_img  #TODO- MATTHEW??? obviouslu there are a ton of type errors here- but I would like to have this image pop up on the GUI.
-        # pixmap_2 = pixmap_2.scaled(500, 500, QtCore.Qt.KeepAspectRatio)
-        # self.lbl_1.setPixmap(pixmap_2)
+        img=ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
+
+        pixmap_2= QtGui.QPixmap(img)  #TODO- MATTHEW??? obviouslu there are a ton of type errors here- but I would like to have this image pop up on the GUI.
+        pixmap_2 = pixmap_2.scaled(2000, 2000, QtCore.Qt.KeepAspectRatio)
+        self.lbl_2.setPixmap(pixmap_2)
 
     # The following three methods set up dragging and dropping for the app
     def dragEnterEvent(self, e):
