@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d941405d-7e56-406a-a31b-ded3904ce05e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/PairsGilbertIntercepts.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exePrototype.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YYGilbertIntercepts.py" beforeDir="false" afterPath="$PROJECT_DIR$/YYGilbertIntercepts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/easy-install.pth" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/easy-install.pth" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/YYGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-137">
-              <caret line="302" column="25" selection-start-line="302" selection-start-column="25" selection-end-line="302" selection-end-column="25" />
+            <state relative-caret-position="305">
+              <caret line="325" column="26" selection-start-line="11" selection-end-line="325" selection-end-column="26" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -39,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="217" column="12" lean-forward="true" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
+            <state relative-caret-position="-103">
+              <caret line="217" column="12" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -66,10 +66,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
+            <state relative-caret-position="51">
+              <caret line="3" column="15" selection-end-line="158" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/exePrototype.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="24" column="26" lean-forward="true" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
               <folding>
-                <element signature="e#0#79#0" expanded="true" />
+                <element signature="e#0#82#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -96,6 +105,13 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>show</find>
+      <find>driver</find>
+      <find>plot.show</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="ROOT_SYNC" value="SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -107,9 +123,10 @@
         <option value="$PROJECT_DIR$/AddTest.py" />
         <option value="$PROJECT_DIR$/CropTesting.py" />
         <option value="$PROJECT_DIR$/test_BFlexAngle.py" />
+        <option value="$PROJECT_DIR$/PairsGilbertIntercepts.py" />
         <option value="$PROJECT_DIR$/GUI.py" />
         <option value="$PROJECT_DIR$/YYGilbertIntercepts.py" />
-        <option value="$PROJECT_DIR$/PairsGilbertIntercepts.py" />
+        <option value="$PROJECT_DIR$/exePrototype.py" />
       </list>
     </option>
   </component>
@@ -159,7 +176,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.PairsGilbertIntercepts">
+  <component name="RunManager" selected="Python.exePrototype">
     <configuration name="CropTesting" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Eric Articulation Angle v0" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -244,11 +261,33 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="exePrototype" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Eric Articulation Angle v0" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/exePrototype.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.PairsGilbertIntercepts" />
-        <item itemvalue="Python.YYGilbertIntercepts" />
+        <item itemvalue="Python.exePrototype" />
         <item itemvalue="Python.GUI" />
+        <item itemvalue="Python.YYGilbertIntercepts" />
+        <item itemvalue="Python.PairsGilbertIntercepts" />
         <item itemvalue="Python.CropTesting" />
       </list>
     </recent_temporary>
@@ -320,7 +359,21 @@
       <option name="project" value="LOCAL" />
       <updated>1565473163840</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Implemented pairs algorithm">
+      <created>1565480768703</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1565480768703</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Matthew put in some sneaky gui shit, looks better now">
+      <created>1565486734684</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1565486734684</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -332,14 +385,14 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24152543" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.24152543" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997175" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.18502825" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.32627118" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32909605" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49966997" visible="true" weight="0.18502825" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="9" sideWeight="0.50033003" side_tool="true" visible="true" weight="0.18502825" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -355,7 +408,9 @@
     <MESSAGE value="Adding testing suite from Antares Large" />
     <MESSAGE value="Fixed the out of bounds error for finding y-intercept." />
     <MESSAGE value="About to properly implement part 1 on the pairs algorithm" />
-    <option name="LAST_COMMIT_MESSAGE" value="About to properly implement part 1 on the pairs algorithm" />
+    <MESSAGE value="Implemented pairs algorithm" />
+    <MESSAGE value="Matthew put in some sneaky gui shit, looks better now" />
+    <option name="LAST_COMMIT_MESSAGE" value="Matthew put in some sneaky gui shit, looks better now" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -396,6 +451,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-103">
+          <caret line="217" column="12" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test_BFlexAngle.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1649">
@@ -408,30 +473,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GUI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
-          <folding>
-            <element signature="e#0#79#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="51">
+          <caret line="3" column="15" selection-end-line="158" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/YYGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-137">
-          <caret line="302" column="25" selection-start-line="302" selection-start-column="25" selection-end-line="302" selection-end-column="25" />
+        <state relative-caret-position="305">
+          <caret line="325" column="26" selection-start-line="11" selection-end-line="325" selection-end-column="26" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
+    <entry file="file://$PROJECT_DIR$/exePrototype.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="217" column="12" lean-forward="true" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
+        <state relative-caret-position="408">
+          <caret line="24" column="26" lean-forward="true" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
           <folding>
-            <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#0#82#0" expanded="true" />
           </folding>
         </state>
       </provider>
