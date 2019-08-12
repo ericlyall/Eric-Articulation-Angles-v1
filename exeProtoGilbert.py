@@ -1,13 +1,20 @@
-import matplotlib.pyplot as plot
+from __future__ import division, unicode_literals, print_function, absolute_import
+
+import platform
+import sys
 import numpy as np
-import imageio
-import os
 import cv2
 import math
-import itertools
-import time
-from PIL import Image
+from PIL import Image, ImageQt
+from PySide2 import QtGui, QtCore, QtWidgets
 import warnings
+
+
+# from YYGilbertIntercepts import BFlexAngle
+
+# Use NSURL as a workaround to pyside/Qt4 behaviour for dragging and dropping on OSx
+op_sys = platform.system()
+
 
 warnings.filterwarnings("ignore", message="invalid value encountered in arccos")
 # Hello. I love GitHub!!
@@ -201,59 +208,14 @@ class BFlexAngle:
         else:
             return False  ## means articulation angle is not past 180
 
-    def search(self, initial_index, line, avg_fam_sized):
-        initial_index
-        index=0
-        while index < len(avg_fam_sized):
+    def search(self, start_index, line, avg_fam_sized):
+        while start_index < len(avg_fam_sized):
             if self.similarSlope(line, avg_fam_sized[
-                index][0],.06) == True and initial_index !=index:  ##TODO avg family list needs to be sorted by size first
-                return index
+                start_index][0],.06) == True:  ##TODO avg family list needs to be sorted by size first
+                return start_index
             else:
-                index += 1
-        return index
-
-##The purpose of pairChecking is to remove outliers
-    def pairChecking(self, avg_fam_sized):
-        flag=0
-        average_family_list=avg_fam_sized.copy()
-        average_family_list=average_family_list[:4]
-        average_family_list.sort(key=lambda x: x[0][2][0])
-        a = 0; b = 1; c = 2; d = 3
-        if self.similarSlope(average_family_list[a][0], average_family_list[b][0], .10) == False:
-            flag=1
-            print("Error, articulation angle inaccurate. Measure on Solidworks")
-            self.message = self.message + "Articulation angle may be innaccurate. Look as solved image, measure on solidworks if needed"
-            a_index = self.search(avg_fam_sized[a][1], avg_fam_sized[a][0], avg_fam_sized)
-            b_index = self.search(avg_fam_sized[b][1], avg_fam_sized[b][0], avg_fam_sized)
-            if a_index<b_index:  #remove b from average fam sized list, it's an outlier
-                avg_fam_sized.remove(average_family_list[b])
-            else:
-                if b_index<a_index:
-                    avg_fam_sized.remove(average_family_list[a])
-
-        if self.similarSlope(average_family_list[c][0], average_family_list[d][0], .10) == False:
-            flag=1
-            print("Error, articulation angle inaccurate. Measure on Solidworks")
-            self.message = self.message + "Articulation angle may be innaccurate. Look as solved image, measure on solidworks if needed"
-            c_index = self.search(avg_fam_sized[c][1], avg_fam_sized[d][0], avg_fam_sized)
-            d_index = self.search(avg_fam_sized[c][1], avg_fam_sized[d][0], avg_fam_sized)
-            if c_index<d_index:  #remove b from average fam sized list, it's an outlier
-                avg_fam_sized.remove(average_family_list[d])
-            else:
-                if d_index<c_index:
-                    avg_fam_sized.remove(average_family_list[c])
-
-        if flag==1:
-            self.pairChecking(self,avg_fam_sized)
-
-        left_line = [average_family_list[a][0], average_family_list[b][0]]
-        right_line = [average_family_list[c][0], average_family_list[d][0]]
-        return [left_line, right_line]
-
-
-
-
-
+                start_index += 1
+        return start_index
 
     def getFinalAngle(self):
         self.grouped_list.sort(key=len, reverse=True)
@@ -275,7 +237,7 @@ class BFlexAngle:
 
         if self.similarSlope(average_family_list[a][0], average_family_list[b][0], .15) == False:
             print("Error, articulation angle inaccurate. Measure on Solidworks")
-            self.message = self.message+"Articulation angle may be innaccurate. Look as solved image, measure on solidworks if needed"
+            self.message = self.message+"Articulation angle may be innaccurate. Look as solved image, measure on Solidworks if needed"
             a_index=self.search(avg_fam_sized[a][1]+1,avg_fam_sized[a][0],avg_fam_sized)
             b_index=self.search(avg_fam_sized[b][1]+1,avg_fam_sized[b][0],avg_fam_sized)
             if a_index<b_index:
@@ -285,7 +247,7 @@ class BFlexAngle:
 
         if self.similarSlope(average_family_list[c][0], average_family_list[d][0], .15) == False:
             print("Error, articulation angle inaccurate. Measure on Solidworks")
-            self.message = self.message+"Articulation angle may be innaccurate. Look as solved image, measure on solidworks if needed"
+            self.message = self.message+"Articulation angle may be innaccurate. Look as solved image, measure on Solidworks if needed"
 
             c_index = self.search(avg_fam_sized[c][1] + 1, avg_fam_sized[c][0], avg_fam_sized)
             d_index = self.search(avg_fam_sized[d][1] + 1, avg_fam_sized[d][0], avg_fam_sized)
@@ -402,9 +364,137 @@ black.
         # print(self.message)
         return round(artic_angle,1)
 
+class MainWindowWidget(QtWidgets.QWidget):
+    """
+    Subclass the widget and add a button to load images.
 
-start_time = time.time()
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3314.jpg")
-#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
-yeet = BFlexAngle(super_image)
-yeet.DriverFunction()
+    Alternatively set up dragging and dropping of image files onto the widget
+    """
+
+    def __init__(self):
+        super(MainWindowWidget, self).__init__()
+        # QtWidgets.QWidget.showFullScreen(MainWindowWidget)
+        # Button that allows loading of images
+        self.load_button = QtWidgets.QPushButton("Load Bronchoscope image")
+        self.load_button.clicked.connect(self.load_image_but)
+
+        # Image viewing region 1
+        self.lbl_1 = QtWidgets.QLabel(self)
+
+        # Image viewing region 2
+        self.lbl_2 = QtWidgets.QLabel(self)
+
+        # A horizontal layout to include the button on the left
+        layout_button = QtWidgets.QHBoxLayout()
+        layout_button.addWidget(self.load_button)
+        #layout_button.addWidget(self.lbl_2) #Adding some space for lbl_2
+
+
+        #This is to make the text box
+        self.logOutput = QtWidgets.QTextEdit(self)
+        self.logOutput.setReadOnly(True)
+        self.logOutput.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
+        self.logOutput.resize(1000,100)
+
+        font = self.logOutput.font()
+        font.setFamily("Courier")
+        font.setPointSize(15)
+
+        # This adds the textbox to the layout
+        layout_button.addWidget(self.logOutput)
+
+        # layout_button.addStretch()
+
+        # A Vertical layout to include the button layout and then the image
+        layout = QtWidgets.QVBoxLayout()
+        layout.addLayout(layout_button)
+        #layout.addWidget(self.lbl_1) #Adding some space for lbl_1
+        layout_button2 = QtWidgets.QHBoxLayout()
+        layout.addLayout(layout_button2)
+        layout_button2.addWidget(self.lbl_2)
+        layout_button2.addWidget(self.lbl_1)
+        self.setLayout(layout)
+
+        # Enable dragging and dropping onto the GUI
+        self.setAcceptDrops(True)
+
+        self.showMaximized()
+
+    def load_image_but(self):
+        """
+        Open a File dialog when the button is pressed
+        :return:
+        """
+
+        # Get the file location
+        self.fname, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file')
+        # Load the image from the location
+        self.load_image()
+
+    def load_image(self):
+        """
+        Set the image to the pixmap
+        :return:
+        """
+        ## shows initial image
+        pixmap_1 = QtGui.QPixmap(self.fname)
+        pixmap_1 = pixmap_1.scaled(2000, 2000, QtCore.Qt.KeepAspectRatio)
+        self.lbl_1.setPixmap(pixmap_1)
+
+        ## Runs the angle calculations, and loads it. Writes the angle to the GUI window.
+        solve_img = BFlexAngle(Image.open(self.fname))
+
+        newfont=QtGui.QFont("Times", 15,QtGui.QFont.Bold)
+        self.logOutput.setFont(newfont)
+        self.logOutput.setText("The articulation angle is:"+ str(solve_img.DriverFunction())+" deg. "+str(solve_img.message))
+
+        # shows solved image
+        img=ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
+
+        pixmap_2= QtGui.QPixmap(img)  #TODO- MATTHEW??? obviouslu there are a ton of type errors here- but I would like to have this image pop up on the GUI.
+        pixmap_2 = pixmap_2.scaled(2000, 2000, QtCore.Qt.KeepAspectRatio)
+        self.lbl_2.setPixmap(pixmap_2)
+
+    # The following three methods set up dragging and dropping for the app
+    def dragEnterEvent(self, e):
+        if e.mimeData().hasUrls:
+            e.accept()
+        else:
+            e.ignore()
+
+    def dragMoveEvent(self, e):
+        if e.mimeData().hasUrls:
+            e.accept()
+        else:
+            e.ignore()
+
+    def dropEvent(self, e):
+        """
+        Drop files directly onto the widget
+        File locations are stored in fname
+        :param e:
+        :return:
+        """
+        if e.mimeData().hasUrls:
+            e.setDropAction(QtCore.Qt.CopyAction)
+            e.accept()
+            # Workaround for OSx dragging and dropping
+            for url in e.mimeData().urls():
+                if op_sys == 'Darwin':
+                    fname = str(NSURL.URLWithString_(str(url.toString())).filePathURL().path())
+                else:
+                    fname = str(url.toLocalFile())
+
+
+
+
+        else:
+            e.ignore()
+
+# Run if called directly
+if __name__== "__main__":
+    # Initialise the application
+    app = QtWidgets.QApplication(sys.argv)
+    # Call the widget
+    ex = MainWindowWidget()
+    sys.exit(app.exec_())

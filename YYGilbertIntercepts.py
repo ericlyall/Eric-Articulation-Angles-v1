@@ -19,13 +19,13 @@ class BFlexAngle:
         #crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
         #crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
         # crop = array_img1[200:1200, 500:1900]  # small b flex screen clip
-        crop = array_img1[350:2300, 700:4200]  # verification clip
+        #crop = array_img1[350:2300, 700:4200]  # verification clip
         #crop = array_img1[800:2700, 700:4400]  ## 4.61 MB images. IMG_0467,0468
         #crop = array_img1[500:1900, 500:3000]  ## 2.45 MB images, IMG_ 0469. 0470
         #crop = array_img1[250:1040, 270:1700]  ## 812 KB images, IMG 0471, 0472
         #crop = array_img1[50:330, 100:530]  ##  104 KB images, IMG_0473, 0474
         #crop = array_img1[300:1000, 300:1680]  #for  1990-1997
-        #crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
+        crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
         self.array_img = crop # this will be used in all functions concerning open cv2
         self.png_img=Image.fromarray(self.array_img)# this will be used in all funciions concerning pythons PIL image library
         self.masterlist = []  # This will contain the top HoughLines, in a list format containing two
@@ -327,7 +327,7 @@ black.
 
 
 start_time = time.time()
-# super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3178.jpg")
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Verification Tips\IMG_0288.jpg")
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3278.jpg")
+#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Verification Tips\IMG_0288.jpg")
 yeet = BFlexAngle(super_image)
 yeet.DriverFunction()

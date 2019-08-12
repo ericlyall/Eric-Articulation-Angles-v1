@@ -2,7 +2,7 @@ from __future__ import division,unicode_literals,print_function,absolute_import
 from PySide2 import QtGui, QtCore, QtWidgets
 import sys
 import platform
-from YYGilbertIntercepts import BFlexAngle
+from PairsGilbertIntercepts import BFlexAngle
 
 import matplotlib.pyplot as plot
 import numpy as np
@@ -16,8 +16,6 @@ from PIL import Image, ImageQt
 
 # Use NSURL as a workaround to pyside/Qt4 behaviour for dragging and dropping on OSx
 op_sys = platform.system()
-if op_sys == 'Darwin':
-    from Foundation import NSURL
 
 
 class MainWindowWidget(QtWidgets.QWidget):
@@ -100,10 +98,9 @@ class MainWindowWidget(QtWidgets.QWidget):
         ## Runs the angle calculations, and loads it. Writes the angle to the GUI window.
         solve_img = BFlexAngle(Image.open(self.fname))
 
-        newfont=QtGui.QFont("Times", 20,QtGui.QFont.Bold)
+        newfont=QtGui.QFont("Times", 15,QtGui.QFont.Bold)
         self.logOutput.setFont(newfont)
-        self.logOutput.setText("The articulation angle is:"+str(solve_img.DriverFunction()))
-        # print(solve_img.DriverFunction())
+        self.logOutput.setText("The articulation angle is:"+str(solve_img.DriverFunction())+str(solve_img.message))
 
         # shows solved image
         img=ImageQt.ImageQt(Image.fromarray(solve_img.array_img))

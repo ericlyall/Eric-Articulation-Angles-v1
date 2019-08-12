@@ -12,8 +12,6 @@ from PySide2 import QtGui, QtCore, QtWidgets
 
 # Use NSURL as a workaround to pyside/Qt4 behaviour for dragging and dropping on OSx
 op_sys = platform.system()
-# if op_sys == 'Darwin':
-#     from Foundation import NSURL
 
 
 class BFlexAngle:
