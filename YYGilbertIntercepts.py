@@ -209,11 +209,12 @@ class BFlexAngle:
         average_family_list = []
         counter = 0
 
-        while counter < 4 and counter < len(self.grouped_list):
+        while counter < 7 and counter < len(self.grouped_list):
             average_family_list.append(self.get_bin_angle(self.grouped_list[counter]))
             self.draw_line(average_family_list[counter], 0, 0, 255)
             counter += 1
         avg_fam_sized=average_family_list.copy()
+        average_family_list = average_family_list[:4]
         average_family_list.sort(key=lambda x: x[2][0])  # TODO- this isn't good enough- need to also look for pairs.
         # Now, the first two are in one group, the second two in another.
         a=0;b=1;c=2;d=3
@@ -225,6 +226,12 @@ class BFlexAngle:
 
         left_line = [average_family_list[a], average_family_list[b]]
         right_line = [average_family_list[c], average_family_list[d]]
+
+        self.draw_line(left_line[0], 191, 183, 73);
+        self.draw_line(left_line[1], 191, 183, 73)
+        self.draw_line(right_line[0], 191, 183, 73);
+        self.draw_line(right_line[1], 191, 183, 73)
+
         actual_left = self.get_bin_angle(left_line)
         actual_right = self.get_bin_angle(right_line)
         self.draw_line(actual_left, 0, 255, 0)
@@ -246,28 +253,28 @@ black.
         # self.array_img=cv2.addWeighted(self.array_img,50,self.array_img,1,0)
         # self.array_img=cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         #
-        (thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
+        # (thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
 
-        # pixelMap = self.png_img.load()
-        # pixel_values = list(self.png_img.getdata())
-        # flag = 0
-        # for i in range(self.png_img.size[0]):  # for every pixel:
-        #     for j in range(self.png_img.size[1]):
-        #         a = pixelMap[i, j]
-        #         # average=(a[0]+a[1]+a[2])/3
-        #         for check in a:  # This acts as a colout similarity test
-        #             # the first number checks to make sure r,g,b are all close to eachother.
-        #             # second number ensures rgb vals are high, like the colour white.
-        #             # if abs(check-average)>50 or check < 150:   # was 50 and 150. 165 now working well
-        #             if check < 165:
-        #                 flag = 1
-        #         if flag == 1:  # When the flag = 1, that means the pixel is not white/ fails colour similarity. Pixel is replaced with black.
-        #             pixelMap[i, j] = (0, 0, 0)
-        #         else:
-        #             pixelMap[i, j] = (a[0], a[1], a[
-        #                 2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
-        #         flag = 0
-        # self.array_img = np.array(self.png_img)
+        pixelMap = self.png_img.load()
+        pixel_values = list(self.png_img.getdata())
+        flag = 0
+        for i in range(self.png_img.size[0]):  # for every pixel:
+            for j in range(self.png_img.size[1]):
+                a = pixelMap[i, j]
+                # average=(a[0]+a[1]+a[2])/3
+                for check in a:  # This acts as a colout similarity test
+                    # the first number checks to make sure r,g,b are all close to eachother.
+                    # second number ensures rgb vals are high, like the colour white.
+                    # if abs(check-average)>50 or check < 150:   # was 50 and 150. 165 now working well
+                    if check < 165:
+                        flag = 1
+                if flag == 1:  # When the flag = 1, that means the pixel is not white/ fails colour similarity. Pixel is replaced with black.
+                    pixelMap[i, j] = (0, 0, 0)
+                else:
+                    pixelMap[i, j] = (a[0], a[1], a[
+                        2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
+                flag = 0
+        self.array_img = np.array(self.png_img)
 
 
         # pixelMap = self.png_img.load()
@@ -292,8 +299,8 @@ black.
         #         flag = 0
         # self.array_img = np.array(self.png_img)
         gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
-        #edges = cv2.Canny(gray, 50, 150, apertureSize=3) #was 50, 150
-        edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
+        edges = cv2.Canny(gray, 50, 150, apertureSize=3) #was 50, 150
+        #edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
 
         lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)
         image_width = int(self.array_img.shape[1])
@@ -318,16 +325,16 @@ black.
         binA.extend(self.masterlist)
         self.pls_group(binA)
         artic_angle = self.getFinalAngle()
-        # print("--- %s seconds ---" % (time.time() - start_time))
-        # plot.figure(figsize=(15, 15))
-        # plot.text(5, 5, artic_angle, bbox=dict(facecolor='red', alpha=0.9))
-        # plot.imshow(self.array_img)
-        # plot.show()
+        print("--- %s seconds ---" % (time.time() - start_time))
+        plot.figure(figsize=(15, 15))
+        plot.text(5, 5, artic_angle, bbox=dict(facecolor='red', alpha=0.9))
+        plot.imshow(self.array_img)
+        plot.show()
         return artic_angle
 
 
 start_time = time.time()
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3278.jpg")
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3188.jpg")
 #super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Verification Tips\IMG_0288.jpg")
 yeet = BFlexAngle(super_image)
 yeet.DriverFunction()
