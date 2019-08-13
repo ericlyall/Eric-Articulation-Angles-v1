@@ -17,7 +17,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CropTesting.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1190">
+            <state relative-caret-position="1071">
               <caret line="70" column="88" selection-start-line="70" selection-start-column="88" selection-end-line="70" selection-end-column="88" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
@@ -29,8 +29,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/YYGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="50">
-              <caret line="221" selection-start-line="221" selection-end-line="221" />
+            <state relative-caret-position="85">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -41,8 +41,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="291" column="60" lean-forward="true" selection-start-line="291" selection-start-column="60" selection-end-line="291" selection-end-column="60" />
+            <state relative-caret-position="187">
+              <caret line="11" column="80" lean-forward="true" selection-start-line="11" selection-start-column="80" selection-end-line="11" selection-end-column="80" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -156,6 +156,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -192,7 +193,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -435,7 +435,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565589970305</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="PAIRS WORKING">
+      <created>1565595851733</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1565595851733</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -447,13 +454,13 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49966997" visible="true" weight="0.24152543" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.37570623" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49966997" weight="0.24152543" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.16949153" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32909605" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4990099" weight="0.18502825" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.4990099" visible="true" weight="0.18502825" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5009901" side_tool="true" weight="0.18502825" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32909605" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -475,20 +482,21 @@
     <MESSAGE value="trying to make the exe now" />
     <MESSAGE value="exes are really hard" />
     <MESSAGE value="pairt algorithm adjusted to remove outliers" />
-    <option name="LAST_COMMIT_MESSAGE" value="pairt algorithm adjusted to remove outliers" />
+    <MESSAGE value="PAIRS WORKING" />
+    <option name="LAST_COMMIT_MESSAGE" value="PAIRS WORKING" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/YYGilbertIntercepts.py</url>
-          <line>221</line>
+          <line>222</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
-          <line>223</line>
-          <option name="timeStamp" value="21" />
+          <line>419</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -527,7 +535,7 @@
     <entry file="file://$PROJECT_DIR$/venv/exeProtoGilbert.py" />
     <entry file="file://$PROJECT_DIR$/CropTesting.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1190">
+        <state relative-caret-position="1071">
           <caret line="70" column="88" selection-start-line="70" selection-start-column="88" selection-end-line="70" selection-end-column="88" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
@@ -584,8 +592,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/YYGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="221" selection-start-line="221" selection-end-line="221" />
+        <state relative-caret-position="85">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
@@ -594,8 +602,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="291" column="60" lean-forward="true" selection-start-line="291" selection-start-column="60" selection-end-line="291" selection-end-column="60" />
+        <state relative-caret-position="187">
+          <caret line="11" column="80" lean-forward="true" selection-start-line="11" selection-start-column="80" selection-end-line="11" selection-end-column="80" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>

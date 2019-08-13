@@ -17,7 +17,7 @@ class BFlexAngle:
         png_img1 = png_img.rotate(90)
         array_img1 = np.array(png_img1)
         # crop= array_img1
-        # crop = array_img1[600:2000, 1200:4400]  # On Angle
+        #crop = array_img1[600:2000, 1200:4400]  # On Angle
         # crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
         #crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
         # crop = array_img1[200:1200, 500:1900]  # small b flex screen clip
@@ -39,6 +39,59 @@ class BFlexAngle:
         self.message=""
         self.left_line=[]
         self.right_line=[]
+        self.imgID=1
+
+    def incomingShaftSearch(self, pixelMap):  ##used to run along vertically or horizontally to find 10 consecutive white pixels
+
+        white_count=0
+        count=0
+        white_found=False
+        shaft_found=False
+        image_end= self.png_img.size[1]-20
+
+        while count<image_end and shaft_found== False:
+            pixel= pixelMap[count,image_end]
+            for check in pixel:
+                if check > 165:
+                    white_found=True
+                else:
+                    white_found=False
+            if white_found==True:
+                white_count+=1
+            else:
+                white_count=0
+            if white_count>5:
+                shaft_found=True
+            count=count+5
+        return count-100   ##TODO Throw an error if it can't find the incoming shaft.
+
+    def distalTipSearch(self,pixelMap, start_X_index):
+        white_count = 0
+        Y_index=self.png_img.size[1]-20
+        white_found = False
+        shaft_found = False
+        image_end=0
+        while Y_index>0 and shaft_found==False:
+            pixel=pixelMap[start_X_index,Y_index]
+            for check in pixel:
+                if check > 165:
+                    white_found=True
+                else:
+                    white_found=False
+            if white_found==True:
+                white_count+=1
+            else:
+                white_count=0
+            if white_count>5:
+                shaft_found=True
+            Y_index=Y_index-5
+        if shaft_found==True:
+            self.imgID=-1
+        else:
+            self.imgID= 1
+    def getImgId(self,pixelMap):
+        start_X_index=self.incomingShaftSearch(pixelMap)
+        self.distalTipSearch(pixelMap,start_X_index)
 
     def getVectorForm(self, rho, theta):
         """
@@ -336,6 +389,7 @@ black.
                     pixelMap[i, j] = (a[0], a[1], a[
                         2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
                 flag = 0
+        self.getImgId(pixelMap)
         self.array_img = np.array(self.png_img)
 
         # pixelMap = self.png_img.load()
@@ -387,8 +441,9 @@ black.
         binA = []
         binA.extend(self.masterlist)
         self.pls_group(binA)
-        artic_angle = self.getFinalAngle()
+        artic_angle = self.getFinalAngle()*self.imgID
         print("--- %s seconds ---" % (time.time() - start_time))
+        print(self.imgID)
         plot.figure(figsize=(15, 15))
         plot.text(5, 5, round(artic_angle,1), bbox=dict(facecolor='red', alpha=0.9))
         plot.imshow(self.array_img)
@@ -398,7 +453,7 @@ black.
 
 
 start_time = time.time()
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3188.jpg")
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3250.jpg")
 #super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
 yeet = BFlexAngle(super_image)
 yeet.DriverFunction()
