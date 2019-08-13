@@ -40,6 +40,7 @@ class BFlexAngle:
         self.left_line=[]
         self.right_line=[]
         self.imgID=1
+        self.artic_angle=""
 
     def incomingShaftSearch(self, pixelMap, runRight):  ##used to run along horizontally to find 5 consecutive white pixels
 
@@ -460,7 +461,7 @@ black.
         binA = []
         binA.extend(self.masterlist)
         self.pls_group(binA)
-        artic_angle = self.getFinalAngle()*self.imgID
+        self.artic_angle = round(self.getFinalAngle()*self.imgID,1)
         # print("--- %s seconds ---" % (time.time() - start_time))
         # print(self.imgID)
         # plot.figure(figsize=(15, 15))
@@ -468,7 +469,7 @@ black.
         # plot.imshow(self.array_img)
         # plot.show()
         # print(self.message)
-        return round(artic_angle, 1)
+        return round(self.artic_angle)
 
 
 start_time = time.time()

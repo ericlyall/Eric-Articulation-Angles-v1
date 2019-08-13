@@ -100,7 +100,13 @@ class MainWindowWidget(QtWidgets.QWidget):
 
         newfont=QtGui.QFont("Times", 15,QtGui.QFont.Bold)
         self.logOutput.setFont(newfont)
-        self.logOutput.setText("The articulation angle is:"+str(solve_img.DriverFunction())+str(solve_img.message))
+        try:
+            solve_img.DriverFunction()
+        except ValueError as err:
+            print(err.args)
+        except SystemError as err:
+            print(err.args)
+        self.logOutput.setText("The articulation angle is:"+str(solve_img.artic_angle)+str(solve_img.message))
 
         # shows solved image
         img=ImageQt.ImageQt(Image.fromarray(solve_img.array_img))

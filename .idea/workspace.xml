@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d941405d-7e56-406a-a31b-ded3904ce05e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PairsGilbertIntercepts.py" beforeDir="false" afterPath="$PROJECT_DIR$/PairsGilbertIntercepts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YYGilbertIntercepts.py" beforeDir="false" afterPath="$PROJECT_DIR$/YYGilbertIntercepts.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +29,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/YYGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="322">
+              <caret line="338" column="96" selection-start-line="338" selection-start-column="96" selection-end-line="338" selection-end-column="96" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -38,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="80" lean-forward="true" selection-start-line="11" selection-start-column="80" selection-end-line="11" selection-end-column="80" />
+            <state relative-caret-position="183">
+              <caret line="471" column="38" lean-forward="true" selection-start-line="471" selection-start-column="38" selection-end-line="471" selection-end-column="38" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -53,17 +53,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_BFlexAngle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2108">
-              <caret line="127" column="64" selection-start-line="127" selection-start-column="64" selection-end-line="127" selection-end-column="64" />
+            <state relative-caret-position="-1772">
+              <caret line="1" column="11" lean-forward="true" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2363">
-              <caret line="153" column="25" selection-start-line="20" selection-end-line="153" selection-end-column="25" />
+            <state relative-caret-position="312">
+              <caret line="111" column="65" lean-forward="true" selection-start-line="111" selection-start-column="65" selection-end-line="111" selection-end-column="65" />
               <folding>
                 <element signature="e#0#79#0" expanded="true" />
               </folding>
@@ -134,20 +134,20 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/AddTest.py" />
         <option value="$PROJECT_DIR$/CropTesting.py" />
-        <option value="$PROJECT_DIR$/test_BFlexAngle.py" />
         <option value="$PROJECT_DIR$/setup.py" />
-        <option value="$PROJECT_DIR$/GUI.py" />
         <option value="$PROJECT_DIR$/venv/exeProtoGilbert.py" />
         <option value="$PROJECT_DIR$/exePrototype.py" />
         <option value="$PROJECT_DIR$/exeProtoGilbert.py" />
         <option value="$PROJECT_DIR$/YYGilbertIntercepts.py" />
+        <option value="$PROJECT_DIR$/test_BFlexAngle.py" />
         <option value="$PROJECT_DIR$/PairsGilbertIntercepts.py" />
+        <option value="$PROJECT_DIR$/GUI.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-15" />
-    <option name="width" value="1950" />
+    <option name="width" value="1948" />
     <option name="height" value="2075" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -198,7 +198,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -217,7 +217,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.PairsGilbertIntercepts">
+  <component name="RunManager" selected="Python.GUI">
     <configuration name="GUI" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Eric Articulation Angle v0" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -281,27 +281,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="exeProtoGilbert" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Eric Articulation Angle v0" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/exeProtoGilbert.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="exePrototype" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Eric Articulation Angle v0" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -323,13 +302,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests for test_BFlexAngle.TestBFlexAngle" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Eric Articulation Angle v0" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_BFlexAngle.TestBFlexAngle&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.GUI" />
+        <item itemvalue="Python tests.Unittests for test_BFlexAngle.TestBFlexAngle" />
         <item itemvalue="Python.PairsGilbertIntercepts" />
         <item itemvalue="Python.YYGilbertIntercepts" />
-        <item itemvalue="Python.GUI" />
         <item itemvalue="Python.exePrototype" />
-        <item itemvalue="Python.exeProtoGilbert" />
       </list>
     </recent_temporary>
   </component>
@@ -442,8 +435,33 @@
       <option name="project" value="LOCAL" />
       <updated>1565595851733</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Image ID working">
+      <created>1565659061187</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1565659061187</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Added throwing / catching of some errors">
+      <created>1565679592021</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1565679592021</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_for_test_BFlexAngle_TestBFlexAngle - 2019.08.12 at 23h 55m 04s.xml">
+      <configuration name="Unittests for test_BFlexAngle.TestBFlexAngle" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_BFlexAngle_TestBFlexAngle - 2019.08.12 at 23h 56m 13s.xml">
+      <configuration name="Unittests for test_BFlexAngle.TestBFlexAngle" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_BFlexAngle_TestBFlexAngle - 2019.08.12 at 23h 58m 38s.xml">
+      <configuration name="Unittests for test_BFlexAngle.TestBFlexAngle" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
@@ -454,13 +472,13 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49966997" weight="0.24152543" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.16949153" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49966997" visible="true" weight="0.24152543" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.27966103" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32909605" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.4990099" visible="true" weight="0.18502825" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4990099" weight="0.18502825" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5009901" side_tool="true" weight="0.18502825" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32909605" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -483,7 +501,9 @@
     <MESSAGE value="exes are really hard" />
     <MESSAGE value="pairt algorithm adjusted to remove outliers" />
     <MESSAGE value="PAIRS WORKING" />
-    <option name="LAST_COMMIT_MESSAGE" value="PAIRS WORKING" />
+    <MESSAGE value="Image ID working" />
+    <MESSAGE value="Added throwing / catching of some errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added throwing / catching of some errors" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -495,8 +515,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
-          <line>419</line>
-          <option name="timeStamp" value="24" />
+          <line>46</line>
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -543,23 +563,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_BFlexAngle.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2108">
-          <caret line="127" column="64" selection-start-line="127" selection-start-column="64" selection-end-line="127" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2363">
-          <caret line="153" column="25" selection-start-line="20" selection-end-line="153" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#79#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/exePrototype.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -590,22 +593,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1165264888/cv2/cv2/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="10851" column="58" selection-start-line="10851" selection-start-column="44" selection-end-line="10851" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/YYGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
+        <state relative-caret-position="322">
+          <caret line="338" column="96" selection-start-line="338" selection-start-column="96" selection-end-line="338" selection-end-column="96" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test_BFlexAngle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1772">
+          <caret line="1" column="11" lean-forward="true" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="80" lean-forward="true" selection-start-line="11" selection-start-column="80" selection-end-line="11" selection-end-column="80" />
+        <state relative-caret-position="183">
+          <caret line="471" column="38" lean-forward="true" selection-start-line="471" selection-start-column="38" selection-end-line="471" selection-end-column="38" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="111" column="65" lean-forward="true" selection-start-line="111" selection-start-column="65" selection-end-line="111" selection-end-column="65" />
+          <folding>
+            <element signature="e#0#79#0" expanded="true" />
           </folding>
         </state>
       </provider>
