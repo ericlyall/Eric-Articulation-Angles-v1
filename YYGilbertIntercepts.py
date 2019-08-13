@@ -254,28 +254,29 @@ black.
         # self.array_img=cv2.addWeighted(self.array_img,50,self.array_img,1,0)
         # self.array_img=cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         #
-        # (thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
+        self.array_img = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
+        (thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
 
-        pixelMap = self.png_img.load()
-        pixel_values = list(self.png_img.getdata())
-        flag = 0
-        for i in range(self.png_img.size[0]):  # for every pixel:
-            for j in range(self.png_img.size[1]):
-                a = pixelMap[i, j]
-                # average=(a[0]+a[1]+a[2])/3
-                for check in a:  # This acts as a colout similarity test
-                    # the first number checks to make sure r,g,b are all close to eachother.
-                    # second number ensures rgb vals are high, like the colour white.
-                    # if abs(check-average)>50 or check < 150:   # was 50 and 150. 165 now working well
-                    if check < 165:
-                        flag = 1
-                if flag == 1:  # When the flag = 1, that means the pixel is not white/ fails colour similarity. Pixel is replaced with black.
-                    pixelMap[i, j] = (0, 0, 0)
-                else:
-                    pixelMap[i, j] = (a[0], a[1], a[
-                        2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
-                flag = 0
-        self.array_img = np.array(self.png_img)
+        # pixelMap = self.png_img.load()
+        # pixel_values = list(self.png_img.getdata())
+        # flag = 0
+        # for i in range(self.png_img.size[0]):  # for every pixel:
+        #     for j in range(self.png_img.size[1]):
+        #         a = pixelMap[i, j]
+        #         # average=(a[0]+a[1]+a[2])/3
+        #         for check in a:  # This acts as a colout similarity test
+        #             # the first number checks to make sure r,g,b are all close to eachother.
+        #             # second number ensures rgb vals are high, like the colour white.
+        #             # if abs(check-average)>50 or check < 150:   # was 50 and 150. 165 now working well
+        #             if check < 165:
+        #                 flag = 1
+        #         if flag == 1:  # When the flag = 1, that means the pixel is not white/ fails colour similarity. Pixel is replaced with black.
+        #             pixelMap[i, j] = (0, 0, 0)
+        #         else:
+        #             pixelMap[i, j] = (a[0], a[1], a[
+        #                 2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
+        #         flag = 0
+        # self.array_img = np.array(self.png_img)
 
 
         # pixelMap = self.png_img.load()
@@ -299,9 +300,9 @@ black.
         #         new_list.clear()
         #         flag = 0
         # self.array_img = np.array(self.png_img)
-        gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
-        edges = cv2.Canny(gray, 50, 150, apertureSize=3) #was 50, 150
-        #edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
+        # gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
+        # edges = cv2.Canny(gray, 50, 150, apertureSize=3) #was 50, 150
+        edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
 
         lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)
         image_width = int(self.array_img.shape[1])
@@ -335,7 +336,7 @@ black.
 
 
 start_time = time.time()
-#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3188.jpg")
+#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3388.jpg")
 super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
 yeet = BFlexAngle(super_image)
 yeet.DriverFunction()

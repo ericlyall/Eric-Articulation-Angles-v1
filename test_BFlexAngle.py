@@ -1,7 +1,7 @@
 from unittest import TestCase
 import time
 from PIL import Image
-from YYGilbertIntercepts import BFlexAngle
+from PairsGilbertIntercepts import BFlexAngle
 
 class TestBFlexAngle(TestCase):
     def setUp(self):
