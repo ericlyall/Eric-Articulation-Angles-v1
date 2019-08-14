@@ -13,6 +13,9 @@ import math
 import itertools
 import time
 from PIL import Image, ImageQt
+import warnings
+warnings.filterwarnings("ignore", message="invalid value encountered in arccos")
+
 
 # Use NSURL as a workaround to pyside/Qt4 behaviour for dragging and dropping on OSx
 op_sys = platform.system()
@@ -47,8 +50,8 @@ class MainWindowWidget(QtWidgets.QWidget):
         #This is to make the text box
         self.logOutput = QtWidgets.QTextEdit(self)
         self.logOutput.setReadOnly(True)
-        self.logOutput.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
-        self.logOutput.resize(1000,100)
+        self.logOutput.setLineWrapMode(QtWidgets.QTextEdit.WidgetWidth)
+        self.logOutput.resize(200,100)
 
         font = self.logOutput.font()
         font.setFamily("Courier")
@@ -72,7 +75,8 @@ class MainWindowWidget(QtWidgets.QWidget):
         # Enable dragging and dropping onto the GUI
         self.setAcceptDrops(True)
 
-        self.showMaximized()
+        # self.showMaximized()
+        self.show()
 
     def load_image_but(self):
         """
@@ -90,30 +94,51 @@ class MainWindowWidget(QtWidgets.QWidget):
         Set the image to the pixmap
         :return:
         """
-        ## shows initial image
-        pixmap_1 = QtGui.QPixmap(self.fname)
-        pixmap_1 = pixmap_1.scaled(2000, 2000, QtCore.Qt.KeepAspectRatio)
+        image_valid=True
+        ## shows input image
+        input_img = ImageQt.ImageQt(Image.open(self.fname).rotate(90))
+
+        pixmap_1 = QtGui.QPixmap(input_img)
+        pixmap_1 = pixmap_1.scaled(800, 1000, QtCore.Qt.KeepAspectRatio)
         self.lbl_1.setPixmap(pixmap_1)
 
-        ## Runs the angle calculations, and loads it. Writes the angle to the GUI window.
-        solve_img = BFlexAngle(Image.open(self.fname))
-
-        newfont=QtGui.QFont("Times", 15,QtGui.QFont.Bold)
+        ## Sets the font
+        newfont = QtGui.QFont("Times", 15, QtGui.QFont.Bold)
         self.logOutput.setFont(newfont)
-        try:
-            solve_img.DriverFunction()
-        except ValueError as err:
-            print(err.args)
-        except SystemError as err:
-            print(err.args)
-        self.logOutput.setText("The articulation angle is:"+str(solve_img.artic_angle)+str(solve_img.message))
 
-        # shows solved image
-        img=ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
+        ## Runs the angle calculations, and loads it. Writes the angle to the GUI window.
+        png_img= Image.open(self.fname)
+        if png_img.size[0] * png_img.size[1] < 20000000:
+            self.logOutput.setText("Error: Image quality too low. Camera image quality was not set to large. "
+                                   "Review test plan. To test angles with this image quality, contact someone who can edit the program. "
+                                   "Otherwise, measure angle on Solidworks.")
 
-        pixmap_2= QtGui.QPixmap(img)  #TODO- MATTHEW??? obviouslu there are a ton of type errors here- but I would like to have this image pop up on the GUI.
-        pixmap_2 = pixmap_2.scaled(2000, 2000, QtCore.Qt.KeepAspectRatio)
-        self.lbl_2.setPixmap(pixmap_2)
+        else:
+            solve_img = BFlexAngle(png_img)
+            try:
+                solve_img.DriverFunction()
+
+            # except UnboundLocalError as err:
+            #     print("")
+            except ValueError as err:
+                print(err.args)
+                image_valid=False
+            except SystemError as err:
+                print(err.args)
+                image_Valid=False
+
+            #Makes the second calculated  image:
+            img = ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
+            pixmap_2 = QtGui.QPixmap(img)
+            pixmap_2 = pixmap_2.scaled(1000, 1500, QtCore.Qt.KeepAspectRatio)
+            self.lbl_2.setPixmap(pixmap_2)
+
+            ## Show text describing articulation angle
+            if image_valid==True:
+                self.logOutput.setText("The articulation angle is:" + str(solve_img.artic_angle) + str(solve_img.message))
+            if image_valid==False:
+                self.logOutput.setText("Error:"+ str(solve_img.message))
+
 
     # The following three methods set up dragging and dropping for the app
     def dragEnterEvent(self, e):

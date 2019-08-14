@@ -7,39 +7,123 @@ import cv2
 import math
 from PIL import Image, ImageQt
 from PySide2 import QtGui, QtCore, QtWidgets
+import warnings
 
 # from YYGilbertIntercepts import BFlexAngle
 
 # Use NSURL as a workaround to pyside/Qt4 behaviour for dragging and dropping on OSx
+print("Program loading 0, please wait....")
+
 op_sys = platform.system()
 
 
+warnings.filterwarnings("ignore", message="invalid value encountered in arccos")
+# Hello. I love GitHub!!
+print("Program loading 1, please wait....")
 class BFlexAngle:
 
     def __init__(self, png_img):
         png_img1 = png_img.rotate(90)
         array_img1 = np.array(png_img1)
         # crop= array_img1
-        # crop = array_img1[600:2000, 1200:4400]  # On Angle
+        #crop = array_img1[600:2000, 1200:4400]  # On Angle
         # crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
-        # crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
+        #crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
         # crop = array_img1[200:1200, 500:1900]  # small b flex screen clip
-        crop = array_img1[350:2300, 700:4200]  # verification clip
+        #crop = array_img1[350:2300, 700:4200]  # verification clip
         # crop = array_img1[800:2700, 700:4400]  ## 4.61 MB images. IMG_0467,0468
         # crop = array_img1[500:1900, 500:3000]  ## 2.45 MB images, IMG_ 0469. 0470
         # crop = array_img1[250:1040, 270:1700]  ## 812 KB images, IMG 0471, 0472
         # crop = array_img1[50:330, 100:530]  ##  104 KB images, IMG_0473, 0474
-        # crop = array_img1[300:1000, 300:1680]  #for  1990-1997
-        # crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
+        # crop = array_img1[300:1000, 300:1680]
+        crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700# #for  1990-1997  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
         self.array_img = crop  # this will be used in all functions concerning open cv2
         self.png_img = Image.fromarray(
             self.array_img)  # this will be used in all funciions concerning pythons PIL image library
+        self.gray=self.array_img
         self.masterlist = []  # This will contain the top HoughLines, in a list format containing two
         # vectors: start vector, and travel vector
         self.grouped_list = []  # This will contain lists (families) of similar lines
         self.width = self.array_img.shape[1]
         self.height = self.array_img.shape[0]
+        self.message=""
+        self.left_line=[]
+        self.right_line=[]
+        self.imgID=1
+        self.artic_angle=""
+        print("Program loading 2, please wait....")
 
+    def incomingShaftSearch(self, pixelMap, runRight):  ##used to run along horizontally to find 5 consecutive white pixels
+
+        white_count=0  # A counter that keeps a tally of how many white pixels are found in a row. If the streak breaks, goes back to zero
+        bounceback=100  #Once the incoming shaft is found, move backwards by this value. Then go upwards to find distal tip in DistalTipSearch
+        if runRight==True:
+            count=0 # the starting index
+            increment=5 # the incrementer for while loop
+            bounceback=-100
+        else:
+            count=self.png_img.size[0]-10
+            increment=-5
+            bounceback=100
+        white_found=False  #means a white pixel is found
+        shaft_found=False  #means 5 consecutive white pixels are found
+        image_end= self.png_img.size[1]-20  #The y-value to start running across at
+
+        #Runs horizontally along y-location image_end, tyring to find incoming shaft
+        while 0<=count<self.png_img.size[0] and shaft_found== False:
+            pixel= pixelMap[count,image_end]  #loading pixelmap
+
+            for check in pixel: #checking if pixels are white
+                if check > 165:
+                    white_found=True
+                else:
+                    white_found=False
+            if white_found==True:
+                white_count+=1
+            else:
+                white_count=0
+            if white_count>5:
+                shaft_found=True
+            count=count+increment  #Loop only reads every 5 pixels
+        if shaft_found==False:
+            self.message = self.message + " Error: Could not find B-Flex in image. Image likely blank"
+            raise ValueError("Could not find incoming shaft! Image likely blank")
+
+        return count+bounceback   # Returns the x-location where one shouldl travel upwards to find distal tip
+
+    def distalTipSearch(self,pixelMap, start_X_index):
+        white_count = 0
+        Y_index=self.png_img.size[1]-20
+        white_found = False
+        shaft_found = False
+        image_end=0
+        while Y_index>0 and shaft_found==False:
+            pixel=pixelMap[start_X_index,Y_index]
+            for check in pixel:
+                if check > 165:
+                    white_found=True
+                else:
+                    white_found=False
+            if white_found==True:
+                white_count+=1
+            else:
+                white_count=0
+            if white_count>5:
+                shaft_found=True
+            Y_index=Y_index-5
+        return shaft_found
+
+    def getImgId(self,pixelMap):
+        start_X_index=self.incomingShaftSearch(pixelMap,True) ##True indicates that we start by runnning to the right - increasing x vals
+        if self.distalTipSearch(pixelMap,start_X_index)==True:
+            self.imgID=-1  #Articulates to the left
+        else:                                                       #Test for right articulation
+            start_X_index= self.incomingShaftSearch(pixelMap,False)
+            if self.distalTipSearch(pixelMap,start_X_index)==True:
+                self.imgID=1 #articulates to the right
+            else:
+                self.message=self.message +" Could not find articulating tip!"
+                raise ValueError("Could not find articulating tip")
     def getVectorForm(self, rho, theta):
         """
         :param rho: Radius from origin- this in defined in HoughLines function
@@ -133,7 +217,7 @@ class BFlexAngle:
             counter = 1
             while counter < len(bin_list):
                 check_line = bin_list[counter]
-                if self.similarOrigin(initial_line, check_line, 85) == False or self.similarSlope(initial_line,
+                if self.similarOrigin(initial_line, check_line, 170) == False or self.similarSlope(initial_line,
                                                                                                   check_line,
                                                                                                   .15) == False:  # IF the lines are not similar.....
                     binB.append(bin_list[counter])
@@ -148,11 +232,10 @@ class BFlexAngle:
         @param line: need a line consisting of start vector, travel vector.
         @return: the point of the y- intercept for the given line in the form: [x,y]. If no y- intercept is found, returns false.
         """
-        # TODO Need to test this when there's no intercept.
         line = np.array(line)
         y_int = self.array_img.shape[0] / 3
         y_int_line = [[1500, y_int], [1, 0]]
-        self.draw_line(y_int_line, 50, 150, 200)
+        # self.draw_line(y_int_line, 50, 150, 200)
         start = -1
         travel = -1
         travel_vect = np.array(line[1])
@@ -162,7 +245,7 @@ class BFlexAngle:
             start = 1
         if line[1][1] > 0:
             travel = 1
-        if start * travel > 0:  ### Da fuck happens here. 2nd part of the array just got deleted. whaaaaa
+        if start * travel > 0:
             a = line[1][0]
             b = line[1][1]
             travel_vect = np.array([a * -1, b * -1])
@@ -175,10 +258,10 @@ class BFlexAngle:
                 int_found = True
             else:  ## Checks to make sure the point is not outside the bound of the image.
                 if not -1 * self.width <= point[0] <= self.width:
-                    print("No Y-Intercept found", point[0], self.array_img.shape[1])
+                    # print("No Y-Intercept found", point[0], self.array_img.shape[1])
                     return False
                 if not -1 * self.height <= point[1] <= self.height:
-                    print("No Y-Intercept found", point[1], self.array_img.shape[0])
+                    # print("No Y-Intercept found", point[1], self.array_img.shape[0])
                     return False
         return point
 
@@ -203,39 +286,95 @@ class BFlexAngle:
         else:
             return False  ## means articulation angle is not past 180
 
-    def search(self, start_index, line, avg_fam_sized):
-        while start_index < len(avg_fam_sized):
+    def search(self, initial_index, line, avg_fam_sized):
+        initial_index
+        index=0
+        while index < len(avg_fam_sized):
             if self.similarSlope(line, avg_fam_sized[
-                start_index]) == True:  ##TODO avg family list needs to be sorted by size first
-                return start_index
+                index][0],.12) == True and initial_index !=avg_fam_sized[index][1]:  ##TODO avg family list needs to be sorted by size first
+                return index
             else:
-                start_index += 1
-        return start_index
+                index += 1
+        return index
+
+##The purpose of pairChecking is to remove outliers
+    def pairChecking(self, avg_fam_sized):
+        if len(avg_fam_sized)<4:
+            self.message= self.message + "2 pairs of lines could not be found! Measure on Solidworks"
+            raise ValueError("2 pairs of lines could not be found! Measure on Solidworks")
+        flag=0
+        average_family_list=avg_fam_sized.copy()
+        average_family_list=average_family_list[:4]
+        average_family_list.sort(key=lambda x: x[0][2][0])
+        a = 0; b = 1; c = 2; d = 3
+        if self.similarSlope(average_family_list[a][0], average_family_list[b][0], .10) == False:
+            flag=1
+            print("Error, articulation angle inaccurate. Measure on Solidworks")
+            self.message = self.message + "Articulation angle may be innaccurate. Look as solved image, measure on solidworks if needed"
+            a_index = self.search(average_family_list[a][1], average_family_list[a][0], avg_fam_sized)
+            b_index = self.search(average_family_list[b][1], average_family_list[b][0], avg_fam_sized)
+            if a_index<b_index:  #remove b from average fam sized list, it's an outlier
+                count=0
+                for x in avg_fam_sized:
+                    if x[1] == average_family_list[b][1]:
+                        del avg_fam_sized[count]
+                        break
+                    count+=1
+            else:
+                if b_index<a_index:
+                    count = 0
+                    for x in avg_fam_sized:
+                        if x[1] == average_family_list[a][1]:
+                            del avg_fam_sized[count]
+                            break
+                        count += 1
+
+        if self.similarSlope(average_family_list[c][0], average_family_list[d][0], .10) == False:
+            flag=1
+            print("Error, articulation angle inaccurate. Measure on Solidworks")
+            self.message = " Articulation angle may be innaccurate. Look at solved image, measure on solidworks if needed"
+            c_index = self.search(average_family_list[c][1], average_family_list[d][0], avg_fam_sized)
+            d_index = self.search(average_family_list[c][1], average_family_list[d][0], avg_fam_sized)
+            if c_index<d_index:  #remove b from average fam sized list, it's an outlier
+                count = 0
+                for x in avg_fam_sized:
+                    if x[1] == average_family_list[d][1]:
+                        del avg_fam_sized[count]
+                        break
+                    count += 1
+            else:
+                if d_index<c_index:
+                    count = 0
+                    for x in avg_fam_sized:
+                        if x[1] == average_family_list[c][1]:
+                            del avg_fam_sized[count]
+                            break
+                        count += 1
+        if flag==1:
+            self.pairChecking(avg_fam_sized)
+
+        flag=0
+        self.left_line.append([average_family_list[a][0], average_family_list[b][0]])
+        self.right_line.append([average_family_list[c][0], average_family_list[d][0]])
 
     def getFinalAngle(self):
-        self.grouped_list.sort(key=len, reverse=True)
-        average_family_list = []
+        self.grouped_list.sort(key=len, reverse=True)  #TODO if the grouped list is too small, increase the # of hough lines returned
+        if len(self.grouped_list)<4:
+            self.message=self.message+"Not enough line groups found! Measure on Solidworks"
+            raise SystemError("Not enough line groups found! Measure on Solidworks")
+        avg_fam_sized = []
         counter = 0
 
-        while counter < 4 and counter < len(self.grouped_list):
-            average_family_list.append(self.get_bin_angle(self.grouped_list[counter]))
-            self.draw_line(average_family_list[counter], 0, 0, 255)
+        while counter < 7 and counter < len(self.grouped_list):
+            avg_fam_sized.append([self.get_bin_angle(self.grouped_list[counter]),counter])
+            # self.draw_line(avg_fam_sized[counter][0], 0, 0, 255)
             counter += 1
-        avg_fam_sized = average_family_list.copy()
-        average_family_list.sort(key=lambda x: x[2][0])  # TODO- this isn't good enough- need to also look for pairs.
-        # Now, the first two are in one group, the second two in another.
-        a = 0;
-        b = 1;
-        c = 2;
-        d = 3
+        self.pairChecking(avg_fam_sized)
+        left_line=self.left_line[0]
+        right_line= self.right_line[0]
+        self.draw_line(left_line[0],191,183,73);self.draw_line(left_line[1],191,183,73)
+        self.draw_line(right_line[0],191,183,73);self.draw_line(right_line[1],191,183,73)
 
-        if self.similarSlope(average_family_list[a], average_family_list[b], .15) == False:
-            print("Error, articulation angle inaccurate. Measure on Solidworks")
-        if self.similarSlope(average_family_list[c], average_family_list[d], .15) == False:
-            print("Error, articulation angle inaccurate. Measure on Solidworks")
-
-        left_line = [average_family_list[a], average_family_list[b]]
-        right_line = [average_family_list[c], average_family_list[d]]
         actual_left = self.get_bin_angle(left_line)
         actual_right = self.get_bin_angle(right_line)
         self.draw_line(actual_left, 0, 255, 0)
@@ -259,8 +398,12 @@ black.
         # self.array_img=cv2.addWeighted(self.array_img,50,self.array_img,1,0)
         # self.array_img=cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         #
-        (thresh, self.array_img) = cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
-
+        # gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
+        #(thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
+        self.getImgId(self.png_img.load())
+        gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
+        (thresh,gray)=cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)
+        edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
         # pixelMap = self.png_img.load()
         # pixel_values = list(self.png_img.getdata())
         # flag = 0
@@ -280,32 +423,13 @@ black.
         #             pixelMap[i, j] = (a[0], a[1], a[
         #                 2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
         #         flag = 0
+        # #self.getImgId(pixelMap)
         # self.array_img = np.array(self.png_img)
 
-        # pixelMap = self.png_img.load()
-        # pixel_values = list(self.png_img.getdata())
-        # flag = 0
-        # for i in range(self.png_img.size[0]):  # for every pixel:
-        #     for j in range(self.png_img.size[1]):
-        #         new_list = list(pixelMap[i, j])
-        #         average = (new_list[0] + new_list[1] + new_list[2]) / 3.0
-        #         index = 0
-        #         for check in new_list:  #This acts as a colout similarity test
-        #             # the first number checks to make sure r,g,b are all close to eachother.
-        #             # second number ensures rgb vals are high, like the colour white.
-        #             if abs(check - average) > 50 or check < 165:   # was 50 and 150. 165 now working well
-        #                 flag = 1
-        #             index = index + 1
-        #         if flag == 1:  #When the flag = 1, that means the pixel is not white/ fails colour similarity. Pixel is replaced with black.
-        #             new_list.clear()
-        #             new_list = [0, 0, 0]
-        #         pixelMap[i, j] = (new_list[0], new_list[1], new_list[2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
-        #         new_list.clear()
-        #         flag = 0
-        # self.array_img = np.array(self.png_img)
-        gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
-        # edges = cv2.Canny(gray, 50, 150, apertureSize=3) #was 50, 150
-        edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3)  # was 50, 150
+
+        # gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
+        # #edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
+        # edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
 
         lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)
         image_width = int(self.array_img.shape[1])
@@ -319,27 +443,29 @@ black.
                 if type(intercept) != bool:
                     self.masterlist.append([line[0], line[1],
                                             intercept])  # could make it so if horizontal line, put start vetor as y int vector
-                    self.draw_line(line, 225, 0, 225)
+                    # self.draw_line(line, 225, 0, 225)
                 else:
                     self.masterlist.append([line[0], line[1], line[
                         0]])  # if the lines are pretty horizontal, make the y-int vector same as start vector.
-                    self.draw_line(line, 225, 0, 225)
+                    # self.draw_line(line, 225, 0, 225)
             counter += 1
 
     def DriverFunction(self):
+        print("Program loading 3, please wait....")
+
         self.imageFilter()
         binA = []
         binA.extend(self.masterlist)
         self.pls_group(binA)
-        artic_angle = self.getFinalAngle()
+        self.artic_angle = round(self.getFinalAngle()*self.imgID,1)
         # print("--- %s seconds ---" % (time.time() - start_time))
+        # print(self.imgID)
         # plot.figure(figsize=(15, 15))
-        # plot.text(5, 5, artic_angle, bbox=dict(facecolor='red', alpha=0.9))
+        # plot.text(5, 5, round(self.artic_angle,1), bbox=dict(facecolor='red', alpha=0.9))
         # plot.imshow(self.array_img)
         # plot.show()
-        return artic_angle
-
-
+        # print(self.message)
+        return self.artic_angle
 class MainWindowWidget(QtWidgets.QWidget):
     """
     Subclass the widget and add a button to load images.
@@ -363,13 +489,14 @@ class MainWindowWidget(QtWidgets.QWidget):
         # A horizontal layout to include the button on the left
         layout_button = QtWidgets.QHBoxLayout()
         layout_button.addWidget(self.load_button)
-        # layout_button.addWidget(self.lbl_2) #Adding some space for lbl_2
+        #layout_button.addWidget(self.lbl_2) #Adding some space for lbl_2
 
-        # This is to make the text box
+
+        #This is to make the text box
         self.logOutput = QtWidgets.QTextEdit(self)
         self.logOutput.setReadOnly(True)
         self.logOutput.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
-        self.logOutput.resize(1000, 100)
+        self.logOutput.resize(400,100)
 
         font = self.logOutput.font()
         font.setFamily("Courier")
@@ -383,7 +510,7 @@ class MainWindowWidget(QtWidgets.QWidget):
         # A Vertical layout to include the button layout and then the image
         layout = QtWidgets.QVBoxLayout()
         layout.addLayout(layout_button)
-        # layout.addWidget(self.lbl_1) #Adding some space for lbl_1
+        #layout.addWidget(self.lbl_1) #Adding some space for lbl_1
         layout_button2 = QtWidgets.QHBoxLayout()
         layout.addLayout(layout_button2)
         layout_button2.addWidget(self.lbl_2)
@@ -393,7 +520,8 @@ class MainWindowWidget(QtWidgets.QWidget):
         # Enable dragging and dropping onto the GUI
         self.setAcceptDrops(True)
 
-        self.showMaximized()
+        # self.showMaximized()
+        self.show()
 
     def load_image_but(self):
         """
@@ -413,23 +541,27 @@ class MainWindowWidget(QtWidgets.QWidget):
         """
         ## shows initial image
         pixmap_1 = QtGui.QPixmap(self.fname)
-        pixmap_1 = pixmap_1.scaled(2000, 2000, QtCore.Qt.KeepAspectRatio)
+        pixmap_1 = pixmap_1.scaled(1000, 1300, QtCore.Qt.KeepAspectRatio)
         self.lbl_1.setPixmap(pixmap_1)
 
         ## Runs the angle calculations, and loads it. Writes the angle to the GUI window.
         solve_img = BFlexAngle(Image.open(self.fname))
 
-        newfont = QtGui.QFont("Times", 20, QtGui.QFont.Bold)
+        newfont=QtGui.QFont("Times", 15,QtGui.QFont.Bold)
         self.logOutput.setFont(newfont)
-        self.logOutput.setText("The articulation angle is:" + str(solve_img.DriverFunction()))
-        # print(solve_img.DriverFunction())
+        try:
+            solve_img.DriverFunction()
+        except ValueError as err:
+            print(err.args)
+        except SystemError as err:
+            print(err.args)
+        self.logOutput.setText("The articulation angle is:"+str(solve_img.artic_angle)+str(solve_img.message))
 
         # shows solved image
-        img = ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
+        img=ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
 
-        pixmap_2 = QtGui.QPixmap(
-            img)  # TODO- MATTHEW??? obviouslu there are a ton of type errors here- but I would like to have this image pop up on the GUI.
-        pixmap_2 = pixmap_2.scaled(2000, 2000, QtCore.Qt.KeepAspectRatio)
+        pixmap_2= QtGui.QPixmap(img)
+        pixmap_2 = pixmap_2.scaled(1300, 1000, QtCore.Qt.KeepAspectRatio)
         self.lbl_2.setPixmap(pixmap_2)
 
     # The following three methods set up dragging and dropping for the app
@@ -468,11 +600,14 @@ class MainWindowWidget(QtWidgets.QWidget):
         else:
             e.ignore()
 
-
 # Run if called directly
-if __name__ == "__main__":
+if __name__== "__main__":
     # Initialise the application
+    print("Program loading 4, please wait....")
+
     app = QtWidgets.QApplication(sys.argv)
+    print("Program loading 5, please wait....")
+
     # Call the widget
     ex = MainWindowWidget()
     sys.exit(app.exec_())

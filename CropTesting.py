@@ -12,9 +12,9 @@ class learnHough:
     def __init__(self, png_img):
         self.png_img= png_img
         array_img1 = np.array(png_img)
-        crop = array_img1[600:4000, 700:4400]  # small b flex 502-...
-        self.array_img = crop
-        # self.array_img=np.array(png_img)
+        # crop = array_img1[1200:2600, 900:3700]
+        # self.array_img = crop
+        self.array_img=np.array(png_img)
         # self.array_img=cv2.addWeighted(self.array_img,.4,self.array_img,1,0)
         # self.array_img = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         # (thresh, self.array_img) = cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
@@ -68,7 +68,7 @@ class learnHough:
 
 #C:\Users\eric1\Google Drive\Verathon Medical\Small B-flex
 
-png_image =  Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg").rotate(90)
+png_image =  Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_0474.jpg").rotate(90)
 
 yeet= learnHough(png_image)
 yeet.HoughLines()

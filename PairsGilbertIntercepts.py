@@ -11,32 +11,38 @@ import warnings
 
 warnings.filterwarnings("ignore", message="invalid value encountered in arccos")
 # Hello. I love GitHub!!
+# class Error(Exception):
+#     "Base class for other custom exceptions"
+#     pass
+# class CannotFindPairs(Error):
+
 class BFlexAngle:
 
     def __init__(self, png_img):
+        self.message= ""
         png_img1 = png_img.rotate(90)
         array_img1 = np.array(png_img1)
         # crop= array_img1
         #crop = array_img1[600:2000, 1200:4400]  # On Angle
         # crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
-        # crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
+        #crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
         # crop = array_img1[200:1200, 500:1900]  # small b flex screen clip
-        # crop = array_img1[350:2300, 700:4200]  # verification clip
+        #crop = array_img1[350:2300, 700:4200]  # verification clip
         # crop = array_img1[800:2700, 700:4400]  ## 4.61 MB images. IMG_0467,0468
         # crop = array_img1[500:1900, 500:3000]  ## 2.45 MB images, IMG_ 0469. 0470
         # crop = array_img1[250:1040, 270:1700]  ## 812 KB images, IMG 0471, 0472
         # crop = array_img1[50:330, 100:530]  ##  104 KB images, IMG_0473, 0474
-        # crop = array_img1[300:1000, 300:1680]  #for  1990-1997
-        crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
+        # crop = array_img1[300:1000, 300:1680]
+        crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700# #for  1990-1997  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
         self.array_img = crop  # this will be used in all functions concerning open cv2
         self.png_img = Image.fromarray(
             self.array_img)  # this will be used in all funciions concerning pythons PIL image library
+        self.gray=self.array_img
         self.masterlist = []  # This will contain the top HoughLines, in a list format containing two
         # vectors: start vector, and travel vector
         self.grouped_list = []  # This will contain lists (families) of similar lines
         self.width = self.array_img.shape[1]
         self.height = self.array_img.shape[0]
-        self.message=""
         self.left_line=[]
         self.right_line=[]
         self.imgID=1
@@ -49,11 +55,10 @@ class BFlexAngle:
         if runRight==True:
             count=0 # the starting index
             increment=5 # the incrementer for while loop
-            bounceback=-100
+            bounceback=-1*bounceback
         else:
             count=self.png_img.size[0]-10
             increment=-5
-            bounceback=100
         white_found=False  #means a white pixel is found
         shaft_found=False  #means 5 consecutive white pixels are found
         image_end= self.png_img.size[1]-20  #The y-value to start running across at
@@ -75,8 +80,8 @@ class BFlexAngle:
                 shaft_found=True
             count=count+increment  #Loop only reads every 5 pixels
         if shaft_found==False:
-            self.message = self.message + "Could not find incoming shaft. Image likely blank"
-            raise ValueError("Could not find incoming shaft! Image likely blank")
+            self.message = self.message + " Error: Could not find incoming shaft. Image likely blank"
+            raise ValueError("Could not find B-Flex in image! Image likely blank")
 
         return count+bounceback   # Returns the x-location where one shouldl travel upwards to find distal tip
 
@@ -111,8 +116,8 @@ class BFlexAngle:
             if self.distalTipSearch(pixelMap,start_X_index)==True:
                 self.imgID=1 #articulates to the right
             else:
-                self.message=self.message +"Could not find articulating tip"
-                raise ValueError("Could not find articulating tip")
+                self.message=self.message +" Could not find articulating tip."
+                raise ValueError(" Could not find articulating tip")
     def getVectorForm(self, rho, theta):
         """
         :param rho: Radius from origin- this in defined in HoughLines function
@@ -223,7 +228,7 @@ class BFlexAngle:
         """
         line = np.array(line)
         y_int = self.array_img.shape[0] / 3
-        y_int_line = [[1500, y_int], [1, 0]]
+        y_int_line = [[1500, y_int], [1, 0]] ##TODO why 1500 here
         self.draw_line(y_int_line, 50, 150, 200)
         start = -1
         travel = -1
@@ -287,25 +292,27 @@ class BFlexAngle:
         return index
 
 ##The purpose of pairChecking is to remove outliers
-    def pairChecking(self, avg_fam_sized):
+    def pairChecking(self, avg_fam_sized,may_inacc_flag):
         if len(avg_fam_sized)<4:
-            self.message= self.message + "2 pairs of lines could not be found! Measure on Solidworks"
-            raise ValueError("2 pairs of lines could not be found! Measure on Solidworks")
+            self.message= self.message + " 2 pairs of lines could not be found! Measure on Solidworks"
+            raise ValueError(" 2 pairs of lines could not be found! Measure on Solidworks")
         flag=0
         average_family_list=avg_fam_sized.copy()
         average_family_list=average_family_list[:4]
         average_family_list.sort(key=lambda x: x[0][2][0])
         a = 0; b = 1; c = 2; d = 3
         if self.similarSlope(average_family_list[a][0], average_family_list[b][0], .10) == False:
-            flag=1
-            print("Error, articulation angle inaccurate. Measure on Solidworks")
-            self.message = self.message + "Articulation angle may be innaccurate. Look as solved image, measure on solidworks if needed"
+            flag=1 ## Very important variable. Determines if function should be called again (recursion)
+            print("Error, articulation angle may inaccurate. Measure on Solidworks if needed")
+            if may_inacc_flag==False:
+                self.message = self.message + "Articulation angle may be innaccurate. Look as solved image, measure on solidworks if needed. "
+                may_inacc_flag==True
             a_index = self.search(average_family_list[a][1], average_family_list[a][0], avg_fam_sized)
             b_index = self.search(average_family_list[b][1], average_family_list[b][0], avg_fam_sized)
             if a_index<b_index:  #remove b from average fam sized list, it's an outlier
                 count=0
-                for x in avg_fam_sized:
-                    if x[1] == average_family_list[b][1]:
+                for w in avg_fam_sized:
+                    if w[1] == average_family_list[b][1]:
                         del avg_fam_sized[count]
                         break
                     count+=1
@@ -317,11 +324,27 @@ class BFlexAngle:
                             del avg_fam_sized[count]
                             break
                         count += 1
+                if a_index==b_index:
+                    count=0
+                    for y in avg_fam_sized:
+                        if y[1] == average_family_list[a][1]:
+                            del avg_fam_sized[count]
+                            break
+                        count += 1
+                    count=0
+                    for z in avg_fam_sized:
+                        if z[1] == average_family_list[b][1]:
+                            del avg_fam_sized[count]
+                            break
+                        count += 1
+
 
         if self.similarSlope(average_family_list[c][0], average_family_list[d][0], .10) == False:
             flag=1
             print("Error, articulation angle inaccurate. Measure on Solidworks")
-            self.message = self.message + "Articulation angle may be innaccurate. Look as solved image, measure on solidworks if needed"
+            if may_inacc_flag==False:
+                self.message = "Articulation angle may be innaccurate. Look at solved image, measure on solidworks if needed. "
+                may_inacc_flag==True
             c_index = self.search(average_family_list[c][1], average_family_list[d][0], avg_fam_sized)
             d_index = self.search(average_family_list[c][1], average_family_list[d][0], avg_fam_sized)
             if c_index<d_index:  #remove b from average fam sized list, it's an outlier
@@ -339,8 +362,21 @@ class BFlexAngle:
                             del avg_fam_sized[count]
                             break
                         count += 1
+                if c_index==d_index:
+                    count=0
+                    for y in avg_fam_sized:
+                        if y[1] == average_family_list[c][1]:
+                            del avg_fam_sized[count]
+                            break
+                        count += 1
+                    count=0
+                    for z in avg_fam_sized:
+                        if z[1] == average_family_list[d][1]:
+                            del avg_fam_sized[count]
+                            break
+                        count += 1
         if flag==1:
-            self.pairChecking(avg_fam_sized)
+            self.pairChecking(avg_fam_sized, may_inacc_flag=True)
 
         flag=0
         self.left_line.append([average_family_list[a][0], average_family_list[b][0]])
@@ -358,7 +394,7 @@ class BFlexAngle:
             avg_fam_sized.append([self.get_bin_angle(self.grouped_list[counter]),counter])
             # self.draw_line(avg_fam_sized[counter][0], 0, 0, 255)
             counter += 1
-        self.pairChecking(avg_fam_sized)
+        self.pairChecking(avg_fam_sized,False)
         left_line=self.left_line[0]
         right_line= self.right_line[0]
         self.draw_line(left_line[0],191,183,73);self.draw_line(left_line[1],191,183,73)
@@ -387,8 +423,13 @@ black.
         # self.array_img=cv2.addWeighted(self.array_img,50,self.array_img,1,0)
         # self.array_img=cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         #
-        self.array_img = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
-        (thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
+        # gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
+        #(thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
+
+        self.getImgId(self.png_img.load())
+        gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
+        (thresh,gray)=cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)
+        edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
 
         # pixelMap = self.png_img.load()
         # pixel_values = list(self.png_img.getdata())
@@ -409,33 +450,13 @@ black.
         #             pixelMap[i, j] = (a[0], a[1], a[
         #                 2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
         #         flag = 0
-        # self.getImgId(pixelMap)
+        # #self.getImgId(pixelMap)
         # self.array_img = np.array(self.png_img)
 
-        # pixelMap = self.png_img.load()
-        # pixel_values = list(self.png_img.getdata())
-        # flag = 0
-        # for i in range(self.png_img.size[0]):  # for every pixel:
-        #     for j in range(self.png_img.size[1]):
-        #         new_list = list(pixelMap[i, j])
-        #         average = (new_list[0] + new_list[1] + new_list[2]) / 3.0
-        #         index = 0
-        #         for check in new_list:  #This acts as a colout similarity test
-        #             # the first number checks to make sure r,g,b are all close to eachother.
-        #             # second number ensures rgb vals are high, like the colour white.
-        #             if abs(check - average) > 50 or check < 165:   # was 50 and 150. 165 now working well
-        #                 flag = 1
-        #             index = index + 1
-        #         if flag == 1:  #When the flag = 1, that means the pixel is not white/ fails colour similarity. Pixel is replaced with black.
-        #             new_list.clear()
-        #             new_list = [0, 0, 0]
-        #         pixelMap[i, j] = (new_list[0], new_list[1], new_list[2])  # new pixel is added to image. If failed colour sim, this new added pixel is black. Otherwise, it is unchanged.
-        #         new_list.clear()
-        #         flag = 0
-        # self.array_img = np.array(self.png_img)
+
         # gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
-        # edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
-        edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
+        # # #edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
+        # edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
 
         lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)
         image_width = int(self.array_img.shape[1])
@@ -462,19 +483,19 @@ black.
         binA.extend(self.masterlist)
         self.pls_group(binA)
         self.artic_angle = round(self.getFinalAngle()*self.imgID,1)
-        # print("--- %s seconds ---" % (time.time() - start_time))
-        # print(self.imgID)
-        # plot.figure(figsize=(15, 15))
-        # plot.text(5, 5, round(artic_angle,1), bbox=dict(facecolor='red', alpha=0.9))
-        # plot.imshow(self.array_img)
-        # plot.show()
-        # print(self.message)
-        return round(self.artic_angle)
+        print("--- %s seconds ---" % (time.time() - start_time))
+        print(self.imgID)
+        plot.figure(figsize=(15, 15))
+        plot.text(5, 5, round(self.artic_angle,1), bbox=dict(facecolor='red', alpha=0.9))
+        plot.imshow(self.array_img)
+        plot.show()
+        print(self.message)
+        return self.artic_angle
 
 
 start_time = time.time()
-#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3255.jpg")
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Small B-flex\IMG_0503.jpg")
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3278.jpg")
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Small B-flex\IMG_0504.jpg")
 yeet = BFlexAngle(super_image)
 try:
     yeet.DriverFunction()
