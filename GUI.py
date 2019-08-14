@@ -16,6 +16,20 @@ from PIL import Image, ImageQt
 import warnings
 warnings.filterwarnings("ignore", message="invalid value encountered in arccos")
 
+class Error(Exception):
+    "Base class for other custom exceptions"
+    pass
+class CannotFindPairs(Error):
+    print(" Error: 2 pairs of lines could not be found! Measure on Solidworks. ")
+    pass
+class CannotFindArticulatingTip(Error):
+    print(" Error: Could not find articulating tip. ")
+    pass
+class CannotFindIncomingShaft(Error):
+    print("Error: Cannot find B-Flex in image. Image likely blank. ")
+class NotEnoughLineGroups(Error):
+    print("Error: Cannot find enough line groups Measure on Solidorks. ")
+
 
 # Use NSURL as a workaround to pyside/Qt4 behaviour for dragging and dropping on OSx
 op_sys = platform.system()
@@ -94,7 +108,8 @@ class MainWindowWidget(QtWidgets.QWidget):
         Set the image to the pixmap
         :return:
         """
-        image_valid=True
+        image_valid=True  ## This just means the image is "showable". This does not mean there is a valid angle
+        angle_error= False  ## If true, means algorithm unable to calculate angle.
         ## shows input image
         input_img = ImageQt.ImageQt(Image.open(self.fname).rotate(90))
 
@@ -120,12 +135,22 @@ class MainWindowWidget(QtWidgets.QWidget):
 
             # except UnboundLocalError as err:
             #     print("")
-            except ValueError as err:
+            except CannotFindIncomingShaft as err:
                 print(err.args)
                 image_valid=False
-            except SystemError as err:
+                angle_error=True
+            except CannotFindArticulatingTip as err:
                 print(err.args)
                 image_Valid=False
+                angle_error=True
+            except CannotFindPairs as err:
+                print(err.args)
+                image_Valid=True ##This means you can show the image, but no angle will pop up
+                angle_error=True
+            except NotEnoughLineGroups as err:
+                print(err.args)
+                image_Valid=True ##This means you can show the image, but no angle will pop up
+                angle_error=True
 
             #Makes the second calculated  image:
             img = ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
@@ -134,8 +159,10 @@ class MainWindowWidget(QtWidgets.QWidget):
             self.lbl_2.setPixmap(pixmap_2)
 
             ## Show text describing articulation angle
+            if image_valid==True and angle_error==True:
+                self.logOutput.setText(str(solve_img.message))
             if image_valid==True:
-                self.logOutput.setText("The articulation angle is:" + str(solve_img.artic_angle) + str(solve_img.message))
+                self.logOutput.setText("The articulation angle is:" + str(solve_img.artic_angle)+ " degrees. " + str(solve_img.message))
             if image_valid==False:
                 self.logOutput.setText("Error:"+ str(solve_img.message))
 
