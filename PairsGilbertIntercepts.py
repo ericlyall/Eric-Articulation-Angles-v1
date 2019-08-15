@@ -11,10 +11,7 @@ import warnings
 
 warnings.filterwarnings("ignore", message="invalid value encountered in arccos")
 # Hello. I love GitHub!!
-# class Error(Exception):
-#     "Base class for other custom exceptions"
-#     pass
-# class CannotFindPairs(Error):
+
 
 class BFlexAngle:
 
@@ -25,7 +22,7 @@ class BFlexAngle:
         # crop= array_img1
         #crop = array_img1[600:2000, 1200:4400]  # On Angle
         # crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
-        crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
+        #crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
         # crop = array_img1[200:1200, 500:1900]  # small b flex screen clip
         #crop = array_img1[350:2300, 700:4200]  # verification clip
         # crop = array_img1[800:2700, 700:4400]  ## 4.61 MB images. IMG_0467,0468
@@ -33,7 +30,7 @@ class BFlexAngle:
         # crop = array_img1[250:1040, 270:1700]  ## 812 KB images, IMG 0471, 0472
         # crop = array_img1[50:330, 100:530]  ##  104 KB images, IMG_0473, 0474
         # crop = array_img1[300:1000, 300:1680]
-        #crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700# #for  1990-1997  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
+        crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. Was 1400:2700, 900:3700
         self.array_img = crop  # this will be used in all functions concerning open cv2
         self.png_img = Image.fromarray(
             self.array_img)  # this will be used in all funciions concerning pythons PIL image library
@@ -226,7 +223,7 @@ class BFlexAngle:
         line = np.array(line)
         y_int = self.array_img.shape[0] / 3
         y_int_line = [[1500, y_int], [1, 0]] ##TODO why 1500 here
-        self.draw_line(y_int_line, 50, 150, 200)
+        # self.draw_line(y_int_line, 50, 150, 200)
         start = -1
         travel = -1
         travel_vect = np.array(line[1])
@@ -298,7 +295,7 @@ class BFlexAngle:
             ref_line=avg_fam_sized[i]
             while j<len(avg_fam_sized):
                 check_line=avg_fam_sized[j]
-                if self.similarSlope(ref_line[0],check_line[0],.06)==True:  #Checks to see if the line groups are pairs
+                if self.similarSlope(ref_line[0],check_line[0],.06)==True and self.similarOrigin(ref_line[0],check_line[0],300):  #Checks to see if the line groups are pairs
                     pair_size= ref_line[1]+check_line[1]  #says how many individual lines are involved in the specific pair.
                     pair=[ref_line,check_line,pair_size]
                     all_pairs_list.append(pair)  #if so, add them to the all pairs list.
@@ -368,7 +365,7 @@ black.
         # gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         #(thresh,self.array_img)=cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
 
-        self.getImgId(self.png_img.load())
+        # self.getImgId(self.png_img.load())
         gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         (thresh,gray)=cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)
         edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
@@ -397,8 +394,8 @@ black.
 
 
         # gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
-        # # #edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
-        # edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
+        # edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
+        # #edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
 
         lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)
         image_width = int(self.array_img.shape[1])
@@ -425,23 +422,23 @@ black.
         binA.extend(self.masterlist)
         self.pls_group(binA)
         self.artic_angle = round(self.getFinalAngle()*self.imgID,1)
-        # print("--- %s seconds ---" % (time.time() - start_time))
-        # print(self.imgID)
-        # plot.figure(figsize=(15, 15))
-        # plot.text(5, 5, round(self.artic_angle,1), bbox=dict(facecolor='red', alpha=0.9))
-        # plot.imshow(self.array_img)
-        # plot.show()
-        # print(self.message)
+        print("--- %s seconds ---" % (time.time() - start_time))
+        print(self.imgID)
+        plot.figure(figsize=(15, 15))
+        plot.text(5, 5, round(self.artic_angle,1), bbox=dict(facecolor='red', alpha=0.9))
+        plot.imshow(self.array_img)
+        plot.show()
+        print(self.message)
         return self.artic_angle
 
 
-# start_time = time.time()
-# # super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3278.jpg")
-# super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\/Small B-flex\IMG_0504.jpg")
-# yeet = BFlexAngle(super_image)
-# try:
-#     yeet.DriverFunction()
-# except ValueError as err:
-#     print(err.args)
-# except SystemError as err:
-#     print(err.args)
+start_time = time.time()
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3278.jpg")
+#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
+yeet = BFlexAngle(super_image)
+try:
+    yeet.DriverFunction()
+except ValueError as err:
+    print(err.args)
+except SystemError as err:
+    print(err.args)

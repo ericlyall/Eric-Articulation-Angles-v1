@@ -124,7 +124,7 @@ class MainWindowWidget(QtWidgets.QWidget):
                 image_valid=False
             except SystemError as err:
                 print(err.args)
-                image_Valid=False
+                image_valid=False
 
             #Makes the second calculated  image:
             img = ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
