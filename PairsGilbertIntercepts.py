@@ -25,7 +25,7 @@ class BFlexAngle:
         # crop= array_img1
         #crop = array_img1[600:2000, 1200:4400]  # On Angle
         # crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
-        #crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
+        crop = array_img1[800:2300, 1100:3850]  # small b flex 502-...
         # crop = array_img1[200:1200, 500:1900]  # small b flex screen clip
         #crop = array_img1[350:2300, 700:4200]  # verification clip
         # crop = array_img1[800:2700, 700:4400]  ## 4.61 MB images. IMG_0467,0468
@@ -33,7 +33,7 @@ class BFlexAngle:
         # crop = array_img1[250:1040, 270:1700]  ## 812 KB images, IMG 0471, 0472
         # crop = array_img1[50:330, 100:530]  ##  104 KB images, IMG_0473, 0474
         # crop = array_img1[300:1000, 300:1680]
-        crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700# #for  1990-1997  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
+        #crop = array_img1[1400:2700, 900:3700]  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700# #for  1990-1997  #goes y values, the x values. This crop is used for most photos. Was 1400:2700, 900:3700
         self.array_img = crop  # this will be used in all functions concerning open cv2
         self.png_img = Image.fromarray(
             self.array_img)  # this will be used in all funciions concerning pythons PIL image library
@@ -289,95 +289,30 @@ class BFlexAngle:
         return index
 
 ##The purpose of pairChecking is to remove outliers
-    def pairChecking(self, avg_fam_sized,may_inacc_flag):
-        if len(avg_fam_sized)<4:
-            self.message= " 2 pairs of lines could not be found! Measure on Solidworks"
-            raise ValueError(" 2 pairs of lines could not be found! Measure on Solidworks")
-        flag=0
-        average_family_list=avg_fam_sized.copy()
-        average_family_list=average_family_list[:4]
-        average_family_list.sort(key=lambda x: x[0][2][0])
-        a = 0; b = 1; c = 2; d = 3
-        if self.similarSlope(average_family_list[a][0], average_family_list[b][0], .10) == False:
-            flag=1 ## Very important variable. Determines if function should be called again (recursion)
-            print("Error, articulation angle may inaccurate. Measure on Solidworks if needed")
-            if may_inacc_flag==False:
-                self.message = self.message + "Articulation angle may be innaccurate. Look as solved image, measure on solidworks if needed. "
-                may_inacc_flag=True
-            a_index = self.search(average_family_list[a][1], average_family_list[a][0], avg_fam_sized)
-            b_index = self.search(average_family_list[b][1], average_family_list[b][0], avg_fam_sized)
-            if a_index<b_index:  #remove b from average fam sized list, it's an outlier
-                count=0
-                for w in avg_fam_sized:
-                    if w[1] == average_family_list[b][1]:
-                        del avg_fam_sized[count]
-                        break
-                    count+=1
-            else:
-                if b_index<a_index:
-                    count = 0
-                    for x in avg_fam_sized:
-                        if x[1] == average_family_list[a][1]:
-                            del avg_fam_sized[count]
-                            break
-                        count += 1
-                if a_index==b_index:
-                    count=0
-                    for y in avg_fam_sized:
-                        if y[1] == average_family_list[a][1]:
-                            del avg_fam_sized[count]
-                            break
-                        count += 1
-                    count=0
-                    for z in avg_fam_sized:
-                        if z[1] == average_family_list[b][1]:
-                            del avg_fam_sized[count]
-                            break
-                        count += 1
-
-
-        if self.similarSlope(average_family_list[c][0], average_family_list[d][0], .10) == False:
-            flag=1
-            print("Error, articulation angle inaccurate. Measure on Solidworks")
-            if may_inacc_flag==False:
-                self.message = "Articulation angle may be innaccurate. Look at solved image, measure on solidworks if needed. "
-                may_inacc_flag=True
-            c_index = self.search(average_family_list[c][1], average_family_list[d][0], avg_fam_sized)
-            d_index = self.search(average_family_list[c][1], average_family_list[d][0], avg_fam_sized)
-            if c_index<d_index:  #remove b from average fam sized list, it's an outlier
-                count = 0
-                for x in avg_fam_sized:
-                    if x[1] == average_family_list[d][1]:
-                        del avg_fam_sized[count]
-                        break
-                    count += 1
-            else:
-                if d_index<c_index:
-                    count = 0
-                    for x in avg_fam_sized:
-                        if x[1] == average_family_list[c][1]:
-                            del avg_fam_sized[count]
-                            break
-                        count += 1
-                if c_index==d_index:
-                    count=0
-                    for y in avg_fam_sized:
-                        if y[1] == average_family_list[c][1]:
-                            del avg_fam_sized[count]
-                            break
-                        count += 1
-                    count=0
-                    for z in avg_fam_sized:
-                        if z[1] == average_family_list[d][1]:
-                            del avg_fam_sized[count]
-                            break
-                        count += 1
-        if flag==1:
-            self.pairChecking(avg_fam_sized, may_inacc_flag)
-
-        flag=0
-        self.left_line.append([average_family_list[a][0], average_family_list[b][0]])
-        self.right_line.append([average_family_list[c][0], average_family_list[d][0]])
+    def pairChecking(self, avg_fam_sized):
+        i=0
+        all_pairs_list=[]  ## this will hold all of the pairs
+        ## two loops here to compare every elment against on another in the list.
+        while i<len(avg_fam_sized)-1:
+            j=i+1
+            ref_line=avg_fam_sized[i]
+            while j<len(avg_fam_sized):
+                check_line=avg_fam_sized[j]
+                if self.similarSlope(ref_line[0],check_line[0],.06)==True:  #Checks to see if the line groups are pairs
+                    pair_size= ref_line[1]+check_line[1]  #says how many individual lines are involved in the specific pair.
+                    pair=[ref_line,check_line,pair_size]
+                    all_pairs_list.append(pair)  #if so, add them to the all pairs list.
+                j+=1
+            i+=1
+        all_pairs_list.sort(reverse=True, key=lambda x: x[2])  #Finds the largest pairs, sorts them to the top of the list based on pair size
+        if len(all_pairs_list)<2:
+            self.message = "Cannot find 2 pairs of lines. Measure on SolidWorks"
+            raise SystemError("Cannot find 2 pairs of lines!")
+        all_pairs_list= all_pairs_list[:2]    #TODO make sure there are no duplicates in here- 180 edge case.
+        top_lines_list=[all_pairs_list[0][0],all_pairs_list[0][1], all_pairs_list[1][0],all_pairs_list[1][1]]
+        top_lines_list.sort(key=lambda x: x[0][2][0])
+        self.left_line.append([top_lines_list[0][0], top_lines_list[1][0]])
+        self.right_line.append([top_lines_list[2][0], top_lines_list[3][0]])
 
     def getFinalAngle(self):
         self.grouped_list.sort(key=len, reverse=True)  #TODO if the grouped list is too small, increase the # of hough lines returned
@@ -388,10 +323,20 @@ class BFlexAngle:
         counter = 0
 
         while counter < 7 and counter < len(self.grouped_list):
-            avg_fam_sized.append([self.get_bin_angle(self.grouped_list[counter]),counter])
+            avg_fam_sized.append([self.get_bin_angle(self.grouped_list[counter]),len(self.grouped_list[counter])])   #place the line, and the group size ( line weight) into array
             # self.draw_line(avg_fam_sized[counter][0], 0, 0, 255)
             counter += 1
-        self.pairChecking(avg_fam_sized,False)
+
+        average_family_list = avg_fam_sized.copy()
+        average_family_list = average_family_list[:4]
+        average_family_list.sort(key=lambda x: x[0][2][0])
+
+        if self.similarSlope(average_family_list[0][0], average_family_list[1][0], .10) == False or self.similarSlope(average_family_list[2][0], average_family_list[3][0], .10) == False:
+            self.message = self.message + "Angle may be innacurate. Look at the red and green lines on the image. If they do not match up with B-Flex, measure on Solidworks"
+            self.pairChecking(avg_fam_sized)
+        else:
+            self.left_line.append([average_family_list[0][0],average_family_list[1][0]])
+            self.right_line.append([average_family_list[2][0],average_family_list[3][0]])
         left_line=self.left_line[0]
         right_line= self.right_line[0]
         self.draw_line(left_line[0],191,183,73);self.draw_line(left_line[1],191,183,73)
@@ -491,8 +436,8 @@ black.
 
 
 # start_time = time.time()
-# super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3278.jpg")
-# super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Small B-flex\IMG_0504.jpg")
+# # super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3278.jpg")
+# super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\/Small B-flex\IMG_0504.jpg")
 # yeet = BFlexAngle(super_image)
 # try:
 #     yeet.DriverFunction()

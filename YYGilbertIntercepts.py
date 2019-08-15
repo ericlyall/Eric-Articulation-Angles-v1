@@ -309,7 +309,7 @@ black.
         image_height = int(self.array_img.shape[0])
         #print(image_height, image_width)
         counter = 0
-        while counter < 35:
+        while counter < 75:
             for rho, theta in lines[counter]:
                 line = self.getVectorForm(rho, theta)
                 intercept= self.find_y_int(line)
@@ -337,6 +337,6 @@ black.
 
 start_time = time.time()
 #super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3388.jpg")
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
+super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Small B-flex\IMG_0504.jpg")
 yeet = BFlexAngle(super_image)
 yeet.DriverFunction()
