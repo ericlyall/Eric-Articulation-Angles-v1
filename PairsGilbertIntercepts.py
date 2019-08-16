@@ -422,23 +422,23 @@ black.
         binA.extend(self.masterlist)
         self.pls_group(binA)
         self.artic_angle = round(self.getFinalAngle()*self.imgID,1)
-        print("--- %s seconds ---" % (time.time() - start_time))
-        print(self.imgID)
-        plot.figure(figsize=(15, 15))
-        plot.text(5, 5, round(self.artic_angle,1), bbox=dict(facecolor='red', alpha=0.9))
-        plot.imshow(self.array_img)
-        plot.show()
+        # print("--- %s seconds ---" % (time.time() - start_time))
+        # print(self.imgID)
+        # plot.figure(figsize=(15, 15))
+        # plot.text(5, 5, round(self.artic_angle,1), bbox=dict(facecolor='red', alpha=0.9))
+        # plot.imshow(self.array_img)
+        # plot.show()
         print(self.message)
         return self.artic_angle
 
 
-start_time = time.time()
-super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3278.jpg")
-#super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
-yeet = BFlexAngle(super_image)
-try:
-    yeet.DriverFunction()
-except ValueError as err:
-    print(err.args)
-except SystemError as err:
-    print(err.args)
+# start_time = time.time()
+# super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3278.jpg")
+# #super_image = Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\On Angle\IMG_0318.jpg")
+# yeet = BFlexAngle(super_image)
+# try:
+#     yeet.DriverFunction()
+# except ValueError as err:
+#     print(err.args)
+# except SystemError as err:
+#     print(err.args)
