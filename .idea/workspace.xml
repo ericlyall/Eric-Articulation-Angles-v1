@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d941405d-7e56-406a-a31b-ded3904ce05e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PairsGilbertIntercepts.py" beforeDir="false" afterPath="$PROJECT_DIR$/PairsGilbertIntercepts.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,11 +51,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="324" column="25" lean-forward="true" selection-start-line="324" selection-start-column="25" selection-end-line="324" selection-end-column="25" />
+            <state relative-caret-position="397">
+              <caret line="359" column="59" lean-forward="true" selection-start-line="359" selection-start-column="59" selection-end-line="359" selection-end-column="59" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
-                <marker date="1566263496330" expanded="true" signature="25718:25987" ph="..." />
+                <marker date="1566264574647" expanded="true" signature="25074:25343" ph="..." />
               </folding>
             </state>
           </provider>
@@ -497,7 +496,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565934246268</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="normal intercepts pairs totally broken">
+      <created>1566263559506</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1566263559506</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -531,14 +537,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12277228" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49966997" visible="true" weight="0.18644068" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49966997" weight="0.18644068" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4990099" weight="0.3559322" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -576,7 +581,8 @@
     <MESSAGE value="Re-did entire pairing algorithm. Working much better now, still need to deal with 180 edge case." />
     <MESSAGE value="Everything workiong, trying to add buttom=ns to GUI to get b-flex sizes" />
     <MESSAGE value="running out of battery" />
-    <option name="LAST_COMMIT_MESSAGE" value="running out of battery" />
+    <MESSAGE value="normal intercepts pairs totally broken" />
+    <option name="LAST_COMMIT_MESSAGE" value="normal intercepts pairs totally broken" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -588,18 +594,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
-          <line>348</line>
-          <option name="timeStamp" value="69" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
           <line>307</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
-          <line>355</line>
-          <option name="timeStamp" value="73" />
+          <line>325</line>
+          <option name="timeStamp" value="75" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -716,11 +717,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="324" column="25" lean-forward="true" selection-start-line="324" selection-start-column="25" selection-end-line="324" selection-end-column="25" />
+        <state relative-caret-position="397">
+          <caret line="359" column="59" lean-forward="true" selection-start-line="359" selection-start-column="59" selection-end-line="359" selection-end-column="59" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
-            <marker date="1566263496330" expanded="true" signature="25718:25987" ph="..." />
+            <marker date="1566264574647" expanded="true" signature="25074:25343" ph="..." />
           </folding>
         </state>
       </provider>

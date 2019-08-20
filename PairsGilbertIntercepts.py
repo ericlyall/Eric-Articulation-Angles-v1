@@ -317,50 +317,39 @@ class BFlexAngle:
         #Want to find a good spot to start walking from each time on candidate line, while looking for intercept.
         while edge_found==False:
             cand_pt=np.add(cand_pt,cand_slope*4)
-            if self.edge_checker(cand_pt,6,5)==True:
+            if self.edge_checker(cand_pt,6, 10)==True:
                 edge_found=True
                 cand_slope=np.divide(cand_slope,-1)
         cand_start_pt=cand_pt
         ref_start_pt= np.array(ref_line[0][2])
-        keep_looking=True
-        rad_trend=[]
-        while keep_looking==True:
-            ref_counter=0
-            ref_pt=ref_start_pt #Ref pt is used as the normal point to increment.
-            cand_pt=cand_start_pt  #cand pt is used as the point to increment
-            keep_normal_vect=True
-            print("memes")
 
-            while ref_counter<parallel_dist and keep_normal_vect==True:
+        if self.searchIntersect(ref_start_pt,normal,cand_start_pt,cand_slope,parallel_dist)==False:
+            normal= normal*-1
+            if self.searchIntersect(ref_start_pt,normal,cand_start_pt,cand_slope,parallel_dist)==False:
+                return False
+            else:
+                return True
+        else:
+            return True
+
+    def searchIntersect(self, ref_pt,normal,cand_pt, cand_slope, parallel_dist):
+
+        ref_counter=0
+        while ref_counter<parallel_dist:
                 ref_pt = np.add(ref_pt, normal*10)
-                cand_counter=0
-                min_radius = np.linalg.norm(np.subtract(ref_pt, cand_pt))
-                while self.edge_checker(cand_pt,6, cand_counter)==False: #checks to make sure the point on the candidate line isn't off the image.
+                baby=0
+                while self.edge_checker(cand_pt,15,baby)==False: #checks to make sure the point on the candidate line isn't off the image.
                     cand_pt=np.add(cand_pt,cand_slope*10)
                     radius = np.linalg.norm(np.subtract(ref_pt, cand_pt))
-
-                    if radius<min_radius:
-                       min_radius= radius
-
-                    if abs(min_radius-parallel_dist)<50:
-                        keep_looking==False
+                    if abs(radius-parallel_dist)<50:
                         return True   ##The two line families have a parallel gap siimilar to the width of a b-flex. They deserve to be pairs.
-                    cand_counter+=1
-                if ref_counter<2:
-                    rad_trend.append(min_radius)
-                    if ref_counter==1 and (rad_trend[1]-rad_trend[0])>=0: ## means the normal vector is facing the wrong way, need to multiply it by -1
-                        normal= np.divide(normal, -1)
-                        rad_trend.clear()
-                        keep_normal_vect=False
-                ref_counter+=1
-            if keep_normal_vect==True:
-                keep_looking=False
-                return False
+                    baby+=1
+        return False
 
 
     ##Checks to see if a point is close to any of the edges, used in searchByNormalVector method
-    def edge_checker(self,point,tolerance, cand_counter):
-        if cand_counter<2:
+    def edge_checker(self,point,tolerance, baby):
+        if baby<3:
             return False
         if abs(point[0]-0)<tolerance:
             return True
