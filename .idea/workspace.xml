@@ -52,20 +52,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="431" column="31" lean-forward="true" selection-start-line="431" selection-start-column="31" selection-end-line="431" selection-end-column="31" />
+            <state relative-caret-position="221">
+              <caret line="324" column="25" lean-forward="true" selection-start-line="324" selection-start-column="25" selection-end-line="324" selection-end-column="25" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
+                <marker date="1566263496330" expanded="true" signature="25718:25987" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/codecs.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="498">
-              <caret line="309" selection-start-line="309" selection-end-line="309" />
             </state>
           </provider>
         </entry>
@@ -73,8 +65,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="108" column="39" lean-forward="true" selection-start-line="108" selection-start-column="39" selection-end-line="108" selection-end-column="39" />
+            <state relative-caret-position="1343">
+              <caret line="79" column="29" lean-forward="true" selection-start-line="79" selection-start-column="29" selection-end-line="79" selection-end-column="29" />
               <folding>
                 <element signature="e#0#79#0" expanded="true" />
               </folding>
@@ -85,11 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/exeProtoGilbert.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4097">
+            <state relative-caret-position="9945">
               <caret line="595" column="11" lean-forward="true" selection-start-line="595" selection-start-column="11" selection-end-line="595" selection-end-column="11" />
-              <folding>
-                <element signature="e#1#83#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -227,7 +216,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for test_BFlexAngle.TestBFlexAngle">
+  <component name="RunManager" selected="Python.PairsGilbertIntercepts">
     <configuration name="GUI" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Eric Articulation Angle v0" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -328,10 +317,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.PairsGilbertIntercepts" />
+        <item itemvalue="Python.GUI" />
         <item itemvalue="Python tests.Unittests for test_BFlexAngle.TestBFlexAngle" />
         <item itemvalue="Python.exeProtoGilbert" />
-        <item itemvalue="Python.GUI" />
-        <item itemvalue="Python.PairsGilbertIntercepts" />
         <item itemvalue="Python.YYGilbertIntercepts" />
       </list>
     </recent_temporary>
@@ -501,7 +490,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565908068544</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="running out of battery">
+      <created>1565934246268</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1565934246268</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -535,13 +531,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12277228" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49966997" weight="0.29661018" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49966997" visible="true" weight="0.18644068" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4990099" weight="0.3559322" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -578,7 +575,8 @@
     <MESSAGE value="There was an error with double == sign inn may be inacc variable, now fixed" />
     <MESSAGE value="Re-did entire pairing algorithm. Working much better now, still need to deal with 180 edge case." />
     <MESSAGE value="Everything workiong, trying to add buttom=ns to GUI to get b-flex sizes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Everything workiong, trying to add buttom=ns to GUI to get b-flex sizes" />
+    <MESSAGE value="running out of battery" />
+    <option name="LAST_COMMIT_MESSAGE" value="running out of battery" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -590,8 +588,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
-          <line>308</line>
-          <option name="timeStamp" value="63" />
+          <line>348</line>
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
+          <line>307</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
+          <line>355</line>
+          <option name="timeStamp" value="73" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -665,6 +673,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/exeProtoGilbert.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9945">
+          <caret line="595" column="11" lean-forward="true" selection-start-line="595" selection-start-column="11" selection-end-line="595" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -675,33 +690,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="309" selection-start-line="309" selection-end-line="309" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exeProtoGilbert.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4097">
-          <caret line="595" column="11" lean-forward="true" selection-start-line="595" selection-start-column="11" selection-end-line="595" selection-end-column="11" />
-          <folding>
-            <element signature="e#1#83#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="108" column="39" lean-forward="true" selection-start-line="108" selection-start-column="39" selection-end-line="108" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#79#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_BFlexAngle.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -709,12 +697,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1343">
+          <caret line="79" column="29" lean-forward="true" selection-start-line="79" selection-start-column="29" selection-end-line="79" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#79#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="626">
+          <caret line="309" selection-start-line="309" selection-end-line="309" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="431" column="31" lean-forward="true" selection-start-line="431" selection-start-column="31" selection-end-line="431" selection-end-column="31" />
+        <state relative-caret-position="221">
+          <caret line="324" column="25" lean-forward="true" selection-start-line="324" selection-start-column="25" selection-end-line="324" selection-end-column="25" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
+            <marker date="1566263496330" expanded="true" signature="25718:25987" ph="..." />
           </folding>
         </state>
       </provider>
