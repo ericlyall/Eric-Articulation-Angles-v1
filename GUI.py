@@ -93,9 +93,8 @@ class MainWindowWidget(QtWidgets.QWidget):
         Set the image to the pixmap
         :return:
         """
-        image_valid=True
         ## shows input image
-        input_img = ImageQt.ImageQt(Image.open(self.fname).rotate(90))
+        input_img = ImageQt.ImageQt(Image.open(self.fname).rotate(-90))
 
         pixmap_1 = QtGui.QPixmap(input_img)
         pixmap_1 = pixmap_1.scaled(800, 1000, QtCore.Qt.KeepAspectRatio)
@@ -112,19 +111,27 @@ class MainWindowWidget(QtWidgets.QWidget):
                                    "Review test plan. To test angles with this image quality, contact someone who can edit the program. "
                                    "Otherwise, measure angle on Solidworks.")
 
-        else:
-            solve_img = BFlexAngle(png_img)
-            try:
-                solve_img.DriverFunction()
 
-            # except UnboundLocalError as err:
-            #     print("")
-            except ValueError as err:
-                print(err.args)
-                image_valid=False
-            except SystemError as err:
-                print(err.args)
-                image_valid=False
+        else:
+            lines_returned=5 ##Number of lines analyzed from the houghlines function
+            keep_going=True ## describes if the program should keep trying to find a valid angle by returning more lines
+            while lines_returned<100 and keep_going==True:
+                solve_img = BFlexAngle(png_img,lines_returned)
+                image_valid=True
+                try:
+                    solve_img.DriverFunction()
+
+                except ValueError as err: ##Value errors are if the image cannot find the articulating tip, or b flex in image.
+                    print(err.args)
+                    image_valid=False
+                    keep_going=False
+                except SystemError as err:  ## A system error only shows when either not enough pairs could be found, or not enough line families are returned.
+                    print(err.args)
+                    lines_returned+=20 ## try repeating everything with more lines.
+                    print("trying again. ", lines_returned, " lines returned")
+                    image_valid=False
+                if image_valid==True: ## If no errors were thrown, proceed onwards.
+                    keep_going=False
 
             #Makes the second calculated  image:
             img = ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
