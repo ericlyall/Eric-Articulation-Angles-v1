@@ -50,7 +50,7 @@ class learnHough:
         # gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         self.array_img = cv2.cvtColor(self.array_img,
                             cv2.COLOR_BGR2GRAY)  ## the binary threshold works better if the image goes grayscale first.
-        # (thresh, self.array_img) = cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
+        (thresh, self.array_img) = cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
         edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3)
         lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)
         image_width = int(self.array_img.shape[1])
@@ -71,7 +71,7 @@ class learnHough:
 
 #C:\Users\eric1\Google Drive\Verathon Medical\Small B-flex
 
-png_image=  Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Jig Verification 2\IMG_0363.jpg").rotate(-90)
+png_image=  Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Jig Verification 2\IMG_0649.jpg").rotate(-90)
 
 yeet= learnHough(png_image)
 yeet.HoughLines()

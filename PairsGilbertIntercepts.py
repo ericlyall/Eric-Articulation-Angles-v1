@@ -260,13 +260,13 @@ class BFlexAngle:
 
     def find_y_int(self, line):
         """
-
+        Find the point where the line intersects the y_intercept line. Help define the location of a line, since the start vector is inadequate.
         :param line: A line in vector form [[startX, startY],[slopeX, slopeY]]
         :return: Th point where the line intercects a horizontal line at 1/3 of image height. If the intersect does not take place on the image, return False.
         """
         line = np.array(line)
         y_int = self.array_img.shape[0] / 3
-        y_int_line = [[1500, y_int], [1, 0]] ##TODO why 1500 here
+        y_int_line = [[self.width/2, y_int], [1, 0]] #Draws the y- intecept lione.
         self.draw_line(y_int_line, 50, 150, 200)
         start = -1
         travel = -1
@@ -288,7 +288,10 @@ class BFlexAngle:
             point = np.add(point, walk * 2)
             if abs(point[1] - y_int) < 3:
                 int_found = True
-            else:  ## Checks to make sure the point is not outside the bound of the image.
+
+            ## Checks to make sure the point is not outside the bound of the image
+            ##Since the start vector can have negative values, the bounds of the image extend equal and opposite in the negative direction,
+            else:
                 if not -1 * self.width <= point[0] <= self.width:
                     # print("No Y-Intercept found", point[0], self.array_img.shape[1])
                     return False
@@ -296,7 +299,8 @@ class BFlexAngle:
                     # print("No Y-Intercept found", point[1], self.array_img.shape[0])
                     return False
         return point
-## Have tested this with 100 lines each on 10 small b-flex images. No failures
+
+
     def findHorizontalIntercept(self, line):
         start_vector_x= line[0][0]
         slope_x=line[1][0]
@@ -473,7 +477,7 @@ class BFlexAngle:
         avg_fam_sized = []
         counter = 0
 
-        while counter < 7 and counter < len(self.grouped_list):
+        while counter < 10 and counter < len(self.grouped_list):
             avg_fam_sized.append([self.get_bin_angle(self.grouped_list[counter]),len(self.grouped_list[counter])])   #place the line, and the group size ( line weight) into array
             self.draw_line(avg_fam_sized[counter][0], 0, 0, 255)
             counter += 1
