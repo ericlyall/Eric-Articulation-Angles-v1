@@ -1,128 +1,191 @@
-from unittest import TestCase
-import time
-from PIL import Image
+from __future__ import division,unicode_literals,print_function,absolute_import
+from PySide2 import QtGui, QtCore, QtWidgets
+import sys
+import platform
 from PairsGilbertIntercepts import BFlexAngle
 
-class TestBFlexAngle(TestCase):
-    def setUp(self):
-        self.tol = 3  # the angle tolerance is +- 3 degrees.
+import matplotlib.pyplot as plot
+import numpy as np
+import imageio
+import os
+import cv2
+import math
+import itertools
+import time
+from PIL import Image, ImageQt
+import warnings
+warnings.filterwarnings("ignore", message="invalid value encountered in arccos")
 
-        self.test_3198 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3198.jpg"))
-        self.test_3208 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3208.jpg"))
-        self.test_3218 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3218.jpg"))
-        self.test_3450 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3450.jpg"))
-        self.test_3395 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3395.jpg"))
-        self.test_3435 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3435.jpg"))
-        self.test_3242 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3242.jpg"))
-        self.test_3254 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3254.jpg"))
-        self.test_3403 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3403.jpg"))
-        self.test_3400 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3400.jpg"))
-        self.test_3383 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3383.jpg"))
-        self.test_3237 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3237.jpg"))
-        self.test_3315 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3315.jpg"))
-        self.test_3194 = BFlexAngle(
-            Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3194.jpg"))
 
-        ## Bugged tests
-        # self.test_3383 = BFlexAngle(Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3383.jpg"))
-        # self.test_3353 = BFlexAngle(Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3353.jpg"))
-        # self.test_3263 = BFlexAngle(Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3263.jpg"))
-        # self.test_3257 = BFlexAngle(Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3257.jpg"))
-        # self.test_3176 = BFlexAngle(Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_3176.jpg"))
+# Use NSURL as a workaround to pyside/Qt4 behaviour for dragging and dropping on OSx
+op_sys = platform.system()
 
-    def test_DriverFunction1(self):
-        angle = self.test_3198.DriverFunction()
-        stl = 172.89
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
 
-    def test_DriverFunction2(self):
-        angle = self.test_3208.DriverFunction()
-        stl = 168.14
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+class MainWindowWidget(QtWidgets.QWidget):
+    """
+    Subclass the widget and add a button to load images.
+    Alternatively set up dragging and dropping of image files onto the widget
+    """
 
-    def test_DriverFunction3(self):
-        angle = self.test_3218.DriverFunction()
-        stl = 176.45
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+    def __init__(self):
+        super(MainWindowWidget, self).__init__()
+        # QtWidgets.QWidget.showFullScreen(MainWindowWidget)
+        # Button that allows loading of images
+        self.load_button = QtWidgets.QPushButton("Load Bronchoscope image")
+        self.load_button.clicked.connect(self.load_image_but)
 
-    def test_DriverFunction4(self):
-        angle = self.test_3450.DriverFunction()
-        stl = 172.48
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        # Image viewing region 1
+        self.lbl_1 = QtWidgets.QLabel(self)
 
-    def test_DriverFunction5(self):
-        angle = self.test_3395.DriverFunction()
-        stl = 154.94
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        # Image viewing region 2
+        self.lbl_2 = QtWidgets.QLabel(self)
 
-    def test_DriverFunction6(self):
-        angle = self.test_3435.DriverFunction()
-        stl = 160.91
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        # A horizontal layout to include the button on the left
+        layout_button = QtWidgets.QHBoxLayout()
+        layout_button.addWidget(self.load_button)
+        #layout_button.addWidget(self.lbl_2) #Adding some space for lbl_2
 
-    def test_DriverFunction7(self):
-        angle = self.test_3242.DriverFunction()
-        stl = 172.48
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
 
-    def test_DriverFunction8(self):
-        angle = self.test_3254.DriverFunction()
-        stl = 164.31
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        #This is to make the text box
+        self.logOutput = QtWidgets.QTextEdit(self)
+        self.logOutput.setReadOnly(True)
+        self.logOutput.setLineWrapMode(QtWidgets.QTextEdit.WidgetWidth)
+        self.logOutput.resize(200,100)
 
-    def test_DriverFunction9(self):
-        angle = self.test_3403.DriverFunction()
-        stl = 180.00
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        font = self.logOutput.font()
+        font.setFamily("Courier")
+        font.setPointSize(15)
 
-    def test_DriverFunction10(self):
-        angle = self.test_3400.DriverFunction()
-        stl = 173.37
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        # This adds the textbox to the layout
+        layout_button.addWidget(self.logOutput)
 
-    def test_DriverFunction11(self):
-        angle = self.test_3383.DriverFunction()
-        stl = 139.18
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        # layout_button.addStretch()
 
-    def test_DriverFunction12(self):
-        angle = self.test_3237.DriverFunction()
-        stl = 165.50
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        # A Vertical layout to include the button layout and then the image
+        layout = QtWidgets.QVBoxLayout()
+        layout.addLayout(layout_button)
+        #layout.addWidget(self.lbl_1) #Adding some space for lbl_1
+        layout_button2 = QtWidgets.QHBoxLayout()
+        layout.addLayout(layout_button2)
+        layout_button2.addWidget(self.lbl_2)
+        layout_button2.addWidget(self.lbl_1)
+        self.setLayout(layout)
 
-    def test_DriverFunction13(self):
-        angle = self.test_3315.DriverFunction()
-        stl = 178.88
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        # Enable dragging and dropping onto the GUI
+        self.setAcceptDrops(True)
 
-    def test_DriverFunction1(self):
-        angle = self.test_3194.DriverFunction()
-        stl = 161.32
-        print("Calculated", angle, "Expected", stl)
-        self.assertTrue(stl - self.tol < angle < stl + self.tol)
+        # self.showMaximized()
+        self.show()
+
+    def load_image_but(self):
+        """
+        Open a File dialog when the button is pressed
+        :return:
+        """
+
+        # Get the file location
+        self.fname, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file')
+        # Load the image from the location
+        self.load_image()
+
+    def load_image(self):
+        """
+        Set the image to the pixmap
+        :return:
+        """
+        ## shows input image
+        input_img = ImageQt.ImageQt(Image.open(self.fname).rotate(-90))
+
+        pixmap_1 = QtGui.QPixmap(input_img)
+        pixmap_1 = pixmap_1.scaled(800, 1000, QtCore.Qt.KeepAspectRatio)
+        self.lbl_1.setPixmap(pixmap_1)
+
+        ## Sets the font
+        newfont = QtGui.QFont("Times", 15, QtGui.QFont.Bold)
+        self.logOutput.setFont(newfont)
+
+        ## Runs the angle calculations, and loads it. Writes the angle to the GUI window.
+        png_img= Image.open(self.fname)
+        if png_img.size[0] * png_img.size[1] < 20000000:
+            self.logOutput.setText("Error: Image quality too low. Camera image quality was not set to large. "
+                                   "Review test plan. To test angles with this image quality, contact someone who can edit the program. "
+                                   "Otherwise, measure angle on Solidworks.")
+
+
+        else:
+            lines_returned=30 ##Number of lines analyzed from the houghlines function
+            keep_going=True ## describes if the program should keep trying to find a valid angle by returning more lines
+            while lines_returned<100 and keep_going==True:
+                solve_img = BFlexAngle(png_img,lines_returned)
+                image_valid=True
+                try:
+                    solve_img.DriverFunction()
+
+                except ValueError as err: ##Value errors are if the image cannot find the articulating tip, or b flex in image.
+                    print(err.args)
+                    image_valid=False
+                    keep_going=False
+                except SystemError as err:  ## A system error only shows when either not enough pairs could be found, or not enough line families are returned.
+                    print(err.args)
+                    lines_returned+=20 ## try repeating everything with more lines.
+                    print("trying again. ", lines_returned, " lines returned")
+                    image_valid=False
+                if image_valid==True: ## If no errors were thrown, proceed onwards.
+                    keep_going=False
+
+            #Makes the second calculated  image:
+            img = ImageQt.ImageQt(Image.fromarray(solve_img.array_img))
+            pixmap_2 = QtGui.QPixmap(img)
+            pixmap_2 = pixmap_2.scaled(1000, 1500, QtCore.Qt.KeepAspectRatio)
+            self.lbl_2.setPixmap(pixmap_2)
+
+            ## Show text describing articulation angle
+            if image_valid==True:
+                self.logOutput.setText("The articulation angle is:" + str(solve_img.artic_angle) + str(solve_img.message))
+            if image_valid==False:
+                self.logOutput.setText("Error:"+ str(solve_img.message))
+
+
+    # The following three methods set up dragging and dropping for the app
+    def dragEnterEvent(self, e):
+        if e.mimeData().hasUrls:
+            e.accept()
+        else:
+            e.ignore()
+
+    def dragMoveEvent(self, e):
+        if e.mimeData().hasUrls:
+            e.accept()
+        else:
+            e.ignore()
+
+    def dropEvent(self, e):
+        """
+        Drop files directly onto the widget
+        File locations are stored in fname
+        :param e:
+        :return:
+        """
+        if e.mimeData().hasUrls:
+            e.setDropAction(QtCore.Qt.CopyAction)
+            e.accept()
+            # Workaround for OSx dragging and dropping
+            for url in e.mimeData().urls():
+                if op_sys == 'Darwin':
+                    fname = str(NSURL.URLWithString_(str(url.toString())).filePathURL().path())
+                else:
+                    fname = str(url.toLocalFile())
+
+
+
+
+        else:
+            e.ignore()
+
+# Run if called directly
+if __name__== "__main__":
+    # Initialise the application
+    app = QtWidgets.QApplication(sys.argv)
+    # Call the widget
+    ex = MainWindowWidget()
+    sys.exit(app.exec_())

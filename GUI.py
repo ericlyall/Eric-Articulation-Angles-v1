@@ -94,7 +94,7 @@ class MainWindowWidget(QtWidgets.QWidget):
         :return:
         """
         ## shows input image
-        input_img = ImageQt.ImageQt(Image.open(self.fname).rotate(-90))
+        input_img = ImageQt.ImageQt(Image.open(self.fname).rotate(90))
 
         pixmap_1 = QtGui.QPixmap(input_img)
         pixmap_1 = pixmap_1.scaled(800, 1000, QtCore.Qt.KeepAspectRatio)
@@ -106,14 +106,16 @@ class MainWindowWidget(QtWidgets.QWidget):
 
         ## Runs the angle calculations, and loads it. Writes the angle to the GUI window.
         png_img= Image.open(self.fname)
-        if png_img.size[0] * png_img.size[1] < 20000000:
+        #if png_img.size[0] * png_img.size[1] < 20000000:
+        if png_img.size[0] * png_img.size[1] < 2:
+
             self.logOutput.setText("Error: Image quality too low. Camera image quality was not set to large. "
                                    "Review test plan. To test angles with this image quality, contact someone who can edit the program. "
                                    "Otherwise, measure angle on Solidworks.")
 
 
         else:
-            lines_returned=5 ##Number of lines analyzed from the houghlines function
+            lines_returned=25 ##Number of lines analyzed from the houghlines function
             keep_going=True ## describes if the program should keep trying to find a valid angle by returning more lines
             while lines_returned<100 and keep_going==True:
                 solve_img = BFlexAngle(png_img,lines_returned)

@@ -5,6 +5,7 @@ import os
 import cv2
 import math
 import itertools
+import imutils
 from PIL import Image
 
 ## please let this actually go to github
@@ -12,9 +13,9 @@ class learnHough:
     def __init__(self, png_img):
         self.png_img= png_img
         array_img1 = np.array(png_img)
-        # crop = array_img1[1200:2600, 900:3700]
-        # self.array_img = crop
-        self.array_img=np.array(png_img)
+        crop = array_img1[1200:3100, 1300:3900] ##JIG CROPPER!!!
+        self.array_img = crop
+        # self.array_img=np.array(png_img)
         # self.array_img=cv2.addWeighted(self.array_img,.4,self.array_img,1,0)
         # self.array_img = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
         # (thresh, self.array_img) = cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
@@ -47,8 +48,10 @@ class learnHough:
 
     def HoughLines(self):
         # gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)
-        gray=self.array_img
-        edges = cv2.Canny(gray, 50, 150, apertureSize=3)
+        self.array_img = cv2.cvtColor(self.array_img,
+                            cv2.COLOR_BGR2GRAY)  ## the binary threshold works better if the image goes grayscale first.
+        # (thresh, self.array_img) = cv2.threshold(self.array_img, 165, 255, cv2.THRESH_BINARY)
+        edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3)
         lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)
         image_width = int(self.array_img.shape[1])
         image_height = int(self.array_img.shape[0])
@@ -68,7 +71,7 @@ class learnHough:
 
 #C:\Users\eric1\Google Drive\Verathon Medical\Small B-flex
 
-png_image =  Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Gilbert's Photos\IMG_0474.jpg").rotate(90)
+png_image=  Image.open(r"C:\Users\eric1\Google Drive\Verathon Medical\Jig Verification 2\IMG_0363.jpg").rotate(-90)
 
 yeet= learnHough(png_image)
 yeet.HoughLines()
