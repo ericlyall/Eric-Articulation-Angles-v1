@@ -115,7 +115,7 @@ class MainWindowWidget(QtWidgets.QWidget):
         else:
             lines_returned=30 ##Number of lines analyzed from the houghlines function
             keep_going=True ## describes if the program should keep trying to find a valid angle by returning more lines
-            while lines_returned<100 and keep_going==True:
+            while lines_returned<=110 and keep_going==True:
                 solve_img = BFlexAngle(png_img,lines_returned)
                 image_valid=True
                 try:

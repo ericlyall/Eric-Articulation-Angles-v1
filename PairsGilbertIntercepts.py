@@ -270,7 +270,7 @@ class BFlexAngle:
         """
         line = np.array(line)
         y_int = self.array_img.shape[0] / 3
-        y_int_line = [[self.width/2, y_int], [1, 0]] #Draws the y- intecept lione.
+        y_int_line = [[self.width*.5, y_int], [1, 0]] #Draws the y- intecept lione.
         self.draw_line(y_int_line, 50, 150, 200)
         start = -1
         travel = -1
@@ -363,10 +363,8 @@ class BFlexAngle:
                 yint2) == bool:  ## if either of them have no intercept, return false- the angle is probably not past 180
             return False
         radius1 = np.linalg.norm(np.subtract(yint1, yint2))
-        fyint1 = yint1 + line1[1] / (np.linalg.norm(line1)) * 10
-        one= line1[1] / (np.linalg.norm(line1))
-        fyint2 = yint2 + line2[1] / (np.linalg.norm(line2)) * 10
-        two= line2[1] / (np.linalg.norm(line2))
+        fyint1 = yint1 + line1[1] / (np.linalg.norm(line1[1])) * 10
+        fyint2 = yint2 + line2[1] / (np.linalg.norm(line2[1])) * 10
         radius2 = np.linalg.norm(np.subtract(fyint1, fyint2))
         if radius2 < radius1:
             return True  ##Means the articulation angle is past 180
@@ -596,7 +594,7 @@ black.
         self.getImgId(self.png_img.load())
         print(self.imgID)
         gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)  ## the binary threshold works better if the image goes grayscale first.
-        (thresh,gray)=cv2.threshold(gray, 185, 255, cv2.THRESH_BINARY)
+        (thresh,gray)=cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)
         edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
 
         # pixelMap = self.png_img.load()
