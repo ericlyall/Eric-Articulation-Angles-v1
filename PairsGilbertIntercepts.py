@@ -57,7 +57,7 @@ class BFlexAngle:
                 If the incming shaft is not found, raises an error stating the image is blank.
         """
         white_count=0  # A counter that keeps a tally of how many white pixels are found in a row. If the streak breaks, goes back to zero
-        bounceback=200  #Once the incoming shaft is found, move backwards/ by this value. Then go upwards to find distal tip in DistalTipSearch
+        bounceback=250  #Once the incoming shaft is found, move backwards/ by this value. Then go upwards to find distal tip in DistalTipSearch
         if runRight==True:
             count=0 # the starting index
             increment=5 # the incrementer for while loop
@@ -271,7 +271,7 @@ class BFlexAngle:
         line = np.array(line)
         y_int = self.array_img.shape[0] / 3
         y_int_line = [[self.width*.5, y_int], [1, 0]] #Draws the y- intecept lione.
-        self.draw_line(y_int_line, 50, 150, 200)
+        # self.draw_line(y_int_line, 50, 150, 200)
         start = -1
         travel = -1
         travel_vect = np.array(line[1])
@@ -536,7 +536,7 @@ class BFlexAngle:
         while counter < 10 and counter < len(self.grouped_list):  #If the line group is less than the 10th largest, we don't want it. The two biggest pairs should not exist
                                                                     # outside of the top 10 groups. AFter the top ten, things get innaccurate.
             avg_fam_sized.append([self.get_bin_angle(self.grouped_list[counter]),len(self.grouped_list[counter])])   #place the line, and the group size (line weight) into array
-            self.draw_line(avg_fam_sized[counter][0], 0, 0, 255)  ##Used for debugging. Draws each line family in blue.
+            # self.draw_line(avg_fam_sized[counter][0], 0, 0, 255)  ##Used for debugging. Draws each line family in blue.
             counter += 1
 
         #Creates a list of the largest 4 line groups.
@@ -635,11 +635,11 @@ black.
                 if type(intercept) != bool and 0<intercept[0]<self.width:  ## if we were able to find a y=intercept on the image.
                     self.masterlist.append([line[0], line[1],
                                             intercept])
-                    self.draw_line(line, 225, 0, 225)
+                    # self.draw_line(line, 225, 0, 225)
                 else: ## this means the lines are pretty horizontal, so need to use new method of getting start vector.
                     intercept=self.findHorizontalIntercept(line)
                     self.masterlist.append([line[0], line[1], intercept])
-                    self.draw_line(line, 225, 0, 225)
+                    # self.draw_line(line, 225, 0, 225)
             counter += 1
 
     def DriverFunction(self):

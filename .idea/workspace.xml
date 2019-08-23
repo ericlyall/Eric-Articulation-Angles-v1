@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d941405d-7e56-406a-a31b-ded3904ce05e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PairsGilbertIntercepts.py" beforeDir="false" afterPath="$PROJECT_DIR$/PairsGilbertIntercepts.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="369" selection-start-line="369" selection-end-line="369" />
+            <state relative-caret-position="8381">
+              <caret line="496" column="82" lean-forward="true" selection-start-line="496" selection-start-column="82" selection-end-line="496" selection-end-column="82" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -29,8 +28,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
+            <state relative-caret-position="1429">
+              <caret line="121" column="46" lean-forward="true" selection-start-line="121" selection-start-column="46" selection-end-line="121" selection-end-column="46" />
+              <folding>
+                <element signature="e#0#79#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -96,9 +98,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-15" />
-    <option name="y" value="-15" />
-    <option name="width" value="1950" />
+    <option name="x" value="1905" />
+    <option name="width" value="1948" />
     <option name="height" value="2075" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -106,7 +107,20 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Eric Articulation Angle v0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Eric Articulation Angle v0" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -446,7 +460,21 @@
       <option name="project" value="LOCAL" />
       <updated>1566493542594</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Working pretty well now, just need to fix the 180 edge case on 239 antonys photos">
+      <created>1566533731360</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1566533731360</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Fixed 180 edge case">
+      <created>1566552006175</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1566552006175</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -481,13 +509,13 @@
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.12277228" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12277228" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49966997" weight="0.18644068" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4990099" visible="true" weight="0.3559322" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49966997" visible="true" weight="0.18644068" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4990099" weight="0.3559322" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32909605" />
@@ -520,8 +548,6 @@
     </layout-to-restore>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Working copy- about to mess with GUI" />
-    <MESSAGE value="Have a type error trying to put the image with lines drawn into the pixmap, line 100-101 under GUI. Usually this function takes in a file path- I don't really wanna make and the destroy a fake file every time," />
     <MESSAGE value="Adding testing suite from Antares Large" />
     <MESSAGE value="Fixed the out of bounds error for finding y-intercept." />
     <MESSAGE value="About to properly implement part 1 on the pairs algorithm" />
@@ -545,7 +571,9 @@
     <MESSAGE value="Pairing fixed, also adjusts ## of lines. About to start dealing with different image qualities" />
     <MESSAGE value="Filters out bad pairs, normal searching function much better now. Adding comments." />
     <MESSAGE value="Changed the max on get finak angle from looking at the top 7 groups to looking at the top 10 groups" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed the max on get finak angle from looking at the top 7 groups to looking at the top 10 groups" />
+    <MESSAGE value="Working pretty well now, just need to fix the 180 edge case on 239 antonys photos" />
+    <MESSAGE value="Fixed 180 edge case" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed 180 edge case" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -557,7 +585,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
-          <line>579</line>
+          <line>577</line>
           <option name="timeStamp" value="80" />
         </line-breakpoint>
       </breakpoints>
@@ -663,13 +691,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/numpy/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -677,10 +698,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1429">
+          <caret line="121" column="46" lean-forward="true" selection-start-line="121" selection-start-column="46" selection-end-line="121" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#79#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="369" selection-start-line="369" selection-end-line="369" />
+        <state relative-caret-position="8381">
+          <caret line="496" column="82" lean-forward="true" selection-start-line="496" selection-start-column="82" selection-end-line="496" selection-end-column="82" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
