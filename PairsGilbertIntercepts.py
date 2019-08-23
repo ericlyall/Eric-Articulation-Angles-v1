@@ -17,7 +17,7 @@ class BFlexAngle:
         self.message= ""
         png_img1 = png_img.rotate(-90)
         array_img1 = np.array(png_img1)
-        crop = array_img1[1200:3100, 1300:3900] ##JIG CROPPER!!!
+        crop = array_img1[1200:3100, 1300:4000] ##JIG CROPPER!!!
         # crop= array_img1
         #crop = array_img1[600:2000, 1200:4400]  # On Angle
         # crop = array_img1[0:1500, 1200:4000]  ## smal b-flex 498-500
@@ -50,7 +50,6 @@ class BFlexAngle:
         """
         This function finds the incoming shaft. The function travels along the bottom of the image searching for
         5 consecutive white pixels, which define the incoming shaft.
-
         :param pixelMap: A pixel map loaded from the png image.
         :param runRight: If true, the shaft searcher will run from the left side of the image to the right side. If false,
                 the shaft searcher will run from the right side of the image to the left.
@@ -89,12 +88,14 @@ class BFlexAngle:
         if shaft_found==False:
             self.message = self.message + " Error: Could not find incoming shaft. Image likely blank"
             raise ValueError("Could not find B-Flex in image! Image likely blank")
+        if not 0<count+bounceback<self.png_img.size[0]:
+            self.message= self.message + "Error- The image has to much glare. Cannot ID the B-flex. Measure on solidworks"
+            raise ValueError("Too much glare!")
         return count+bounceback   # Returns the x-location where one should travel upwards to find distal tip
 
     def distalTipSearch(self,pixelMap, start_X_index):
         """
         Travels upwards from a specified location searching for the distal tip of a B-flex. The distal tip is defined by 5 consecutive white pixels.
-
         :param pixelMap: A pixel map loaded from the png image
         :param start_X_index: The x-location returned by IncomingShaftSearch. This is the point at which this function can travel upwards and expect to find
                               the distal tip
@@ -180,8 +181,12 @@ class BFlexAngle:
         travel_vector1 = line1[1]
         travel_vector2 = line2[1]
         similar = False
+
         angle_diff = np.arccos(
             np.dot(travel_vector1, travel_vector2) / (np.linalg.norm(travel_vector1) * np.linalg.norm(travel_vector2)))
+        ##TODO if the travel vectors are exactly the same, it's gonna return Nan- should return true.
+        if np.isnan(angle_diff)==True:
+            similar=True
         if angle_diff > np.pi / 2:
             angle_diff = np.pi - angle_diff
         if angle_diff < angle_thresh:
@@ -190,7 +195,6 @@ class BFlexAngle:
 
     def draw_line(self, line, red, green, blue):
         """
-
         :param line: a line in an array containing a start vector and a travel vector, in that order
         :param red: Red colour value of pixel. Must be <255
         :param green: Green colour value of pixel. Must be <255
@@ -249,7 +253,7 @@ class BFlexAngle:
             counter = 1
             while counter < len(bin_list):
                 check_line = bin_list[counter]
-                if self.similarOrigin(initial_line, check_line, 140) == False or self.similarSlope(initial_line,
+                if self.similarOrigin(initial_line, check_line, 120) == False or self.similarSlope(initial_line,
                                                                                                   check_line,
                                                                                                   .15) == False:  # IF the lines are not similar.....
                     binB.append(bin_list[counter])
@@ -302,6 +306,11 @@ class BFlexAngle:
 
 
     def findHorizontalIntercept(self, line):
+        """
+
+        :param line:  A line in vector form [[startX, startY],[slopeX, slopeY]]
+        :return: The point at which the line intersects the right of left side of the image, based on the Image ID. If no horizontal intersect is found, returns the start vector.
+        """
         start_vector_x= line[0][0]
         slope_x=line[1][0]
         slope_y=line[1][1]
@@ -317,7 +326,7 @@ class BFlexAngle:
             if slope_x<0:
                 copy_slope= np.array([slope_x *-1, slope_y *-1])
 
-        point = np.array(line[0]) ## should copy the start vector, so no issues about mutability.
+        point = np.array(line[0]).copy() ## should copy the start vector, so no issues about mutability.
         walk = np.divide(copy_slope, (np.linalg.norm(copy_slope)))  ## turns the slope vector into a unit vector
         hor_int_found =False
         counter=0
@@ -326,7 +335,8 @@ class BFlexAngle:
             if abs(point[0]-side)<3:
                 hor_int_found=True
                 return point   ## if the horizontal intercept is found (which it always should be...), return it
-            if abs(counter)>self.array_img.shape[1]*3:
+
+            if abs(counter)>self.array_img.shape[1]*3: ##If found some reason the horizontal intercept is not found (it should always be found), bounce out of loop and return start vector.
                 hor_int_found=True
                 print("horizontal intercept not found", line)
                 self.draw_line(line,225,192,203)
@@ -334,7 +344,14 @@ class BFlexAngle:
         return line[0]        # otherwise, return the start vector.
 
     def edgecase180(self, line1, line2):
-        # Want to make both the lines positive- that is, going downwards in the picture.
+        """
+
+        :param line1:  A line in vector form [[startX, startY],[slopeX, slopeY]]
+        :param line2:  A line in vector form [[startX, startY],[slopeX, slopeY]]
+        :return: True if the angle should be greater than 180. This happens when both lines are pointing downwards, and get
+                closer together.
+        """
+        # Adjusts slopes. Want to make both the lines positive- that is, going downwards in the picture.
         if line1[1][1] < 0:
             line1[1] = line1[1] * -1
         if line2[1][1] < 0:
@@ -347,7 +364,9 @@ class BFlexAngle:
             return False
         radius1 = np.linalg.norm(np.subtract(yint1, yint2))
         fyint1 = yint1 + line1[1] / (np.linalg.norm(line1)) * 10
+        one= line1[1] / (np.linalg.norm(line1))
         fyint2 = yint2 + line2[1] / (np.linalg.norm(line2)) * 10
+        two= line2[1] / (np.linalg.norm(line2))
         radius2 = np.linalg.norm(np.subtract(fyint1, fyint2))
         if radius2 < radius1:
             return True  ##Means the articulation angle is past 180
@@ -355,6 +374,13 @@ class BFlexAngle:
             return False  ## means articulation angle is not past 180
 
     def searchByNormalVector(self, ref_line, candidate_line):
+        """
+        Check how far apart, in the normal direction that 2 parallel lines are.
+
+        :param ref_line: A line in form [[[startX, startY],[slopeX, slopeY];[interceptX, interceptY]],[family weight]]
+        :param candidate_line: A line in form [[[startX, startY],[slopeX, slopeY];[interceptX, interceptY]],[family weight]]
+        :return: True if the lines are roughly a B-flex width apart (between 120 and 310 pixels) False otherwise.
+        """
         cand_pt=np.array(candidate_line[0][2])
         cand_slope=np.array(candidate_line[0][1])
         cand_slope = np.divide(cand_slope, (np.linalg.norm(cand_slope)))
@@ -370,23 +396,30 @@ class BFlexAngle:
         ref_start_pt= np.array(ref_line[0][2])
         ref_slope=ref_line[0][1]
 
-        if self.searchIntersect(ref_start_pt,cand_start_pt,cand_slope,ref_slope)==False:
+        if self.searchIntersect(ref_start_pt,cand_start_pt,cand_slope,ref_slope)==False:  #This is the function call that actually checks the parallel distances.
             return False
         else:
             return True
 
     def searchIntersect(self, ref_pt,cand_pt, cand_slope, ref_slope):
+        """
 
+        :param ref_pt: a point in [x,y] format
+        :param cand_pt: a point in the [x,y] format. This point will constanly be incremented and compared against ref point.
+        :param cand_slope: slope of the candidate line in [x,y] format.
+        :param ref_slope: slope of the reference line in [x,y] format.
+        :return: True if the two line families have a parallel gap siimilar to the width of a b-flex. False otherwise.
+        """
         baby = 0 ## makes sure the edgechecker returns false if the line is right at the edge.
 
         # checks to make sure the point on the candidate line isn't off the image.
         while self.edge_checker(cand_pt,baby) == False:
             cand_pt = np.add(cand_pt, cand_slope * 10)
-            rad_vector=np.subtract(ref_pt, cand_pt)
+            rad_vector=np.subtract(ref_pt, cand_pt)  # a direction vector from the reference pt to candidate pt
             radius = np.linalg.norm(rad_vector)
             angle = np.arccos(np.dot(ref_slope, rad_vector) / (np.linalg.norm(ref_slope) * np.linalg.norm(rad_vector)))
-            if abs(np.pi/2-angle)<.52:
-                if 120<abs(radius) < 310:
+            if abs(np.pi/2-angle)<.52:  #The angle between rad_vector and ref_slop should be close to perpendicular if we want to find the true parallel gap distance.
+                if 120<abs(radius) < 310: #120 is the minimum width, in pixels of a B-flex small. 310 is the maximum width in pixels of the B-Flex large.
                     return True  ##The two line families have a parallel gap siimilar to the width of a b-flex. They deserve to be pairs.
             baby += 1
         return False
@@ -394,6 +427,12 @@ class BFlexAngle:
 
     ##Checks to see if a point is close to any of the edges, used in searchByNormalVector method
     def edge_checker(self,point,baby):
+        """
+
+        :param point: a point in [x,y] form
+        :param baby: A super old variable, can probably delete it TODO delete baby?
+        :return:
+        """
         if baby<3:
             return False
         if point[0]<0:
@@ -407,6 +446,12 @@ class BFlexAngle:
         return False
 
     def removeSimPairs(self,all_pairs_list):
+        """
+        A recursive algorithm that removes all the similar pairs from all_pairs_list. Similar pairs are two pairs that share a line family.
+        The similar pair with a lower weight (amount of lines that went into creating the pair) is removed.
+        :param all_pairs_list: a list full of pairs. Pairs are in the format: [line1, line2, pairWeight]
+        [[[[startX, startY],[slopeX, slopeY],[interceptX, interceptY]],family weight], [[[startX, startY],[slopeX, slopeY],[interceptX, interceptY]],family weight]], pair_weight]
+        """
         sim_pair_flag=False
         if len(all_pairs_list)<2:
             raise SystemError("Cannot find 2 pairs of lines!")
@@ -439,17 +484,25 @@ class BFlexAngle:
             self.clean_pairs_list= all_pairs_list
 
 
-##The purpose of pairChecking is to search for the 2 biggest pairs of line families.
+
     def pairChecking(self, avg_fam_sized):
+        """
+        The purpose of pairChecking is to search for the 2 biggest pairs of line families. Once the 2 largest pairs are found,
+        all 4 lines are sorted left to right by the x value in their intercept vector.
+
+        :param avg_fam_sized: A list containing line families.
+        :return Stores left two lines in self.left_line. Stores right two lines in self.right_line
+        """
         i=0
         all_pairs_list=[]  ## this will hold all of the pairs
-        ## two loops here to compare every elment against on another in the list.
+        #Looks for pairs
+        ## two loops here to compare every element against on another in the list.
         while i<len(avg_fam_sized)-1:
             j=i+1
             ref_line=avg_fam_sized[i]
             while j<len(avg_fam_sized):
                 check_line=avg_fam_sized[j]
-                if self.similarSlope(ref_line[0],check_line[0],.15)==True:
+                if self.similarSlope(ref_line[0],check_line[0],.10)==True:
                     if self.searchByNormalVector(ref_line,check_line)==True:  #Checks to see if the line groups are pairs
                         pair_size= ref_line[1]+check_line[1]  #says how many individual lines are involved in the specific pair.
                         pair=[ref_line,check_line,pair_size]
@@ -460,32 +513,42 @@ class BFlexAngle:
         if len(all_pairs_list)<2:
             self.message = "Cannot find 2 pairs of lines. Measure on SolidWorks"
             raise SystemError("Cannot find 2 pairs of lines!")
-        self.removeSimPairs(all_pairs_list.copy()) ## makes sure there are no duplicates
+        self.removeSimPairs(all_pairs_list.copy()) ## makes sure there are no duplicates pairs ( 1 line family existing in 2 pairs.
 
-        self.clean_pairs_list= self.clean_pairs_list[:2]
+        self.clean_pairs_list= self.clean_pairs_list[:2] #Takes the top 2 pairs from clean pairs list
 
+        #Breaks apart the top 2 pairs. Sorts each family from left to right
         top_lines_list=[self.clean_pairs_list[0][0],self.clean_pairs_list[0][1], self.clean_pairs_list[1][0],self.clean_pairs_list[1][1]]
         top_lines_list.sort(key=lambda x: x[0][2][0])
         self.left_line.append([top_lines_list[0][0], top_lines_list[1][0]])
         self.right_line.append([top_lines_list[2][0], top_lines_list[3][0]])
 
     def getFinalAngle(self):
+        """
+        Takes a grouped list of lines, finds the 2 biggest pairs, and calculates the angle between the.
+        :return: Stores the articulation angle in the class-wide variable self.artic_Angle.
+        """
         self.grouped_list.sort(key=len, reverse=True)
-        if len(self.grouped_list)<4:
+        if len(self.grouped_list)<4:  ##This means there are not enough lines to make 2 pairs.
             self.message=self.message+" Not enough line groups found! Measure on Solidworks"
             raise SystemError(" Not enough line groups found! Measure on Solidworks")
         avg_fam_sized = []
         counter = 0
 
-        while counter < 10 and counter < len(self.grouped_list):
-            avg_fam_sized.append([self.get_bin_angle(self.grouped_list[counter]),len(self.grouped_list[counter])])   #place the line, and the group size ( line weight) into array
-            self.draw_line(avg_fam_sized[counter][0], 0, 0, 255)
+        while counter < 10 and counter < len(self.grouped_list):  #If the line group is less than the 10th largest, we don't want it. The two biggest pairs should not exist
+                                                                    # outside of the top 10 groups. AFter the top ten, things get innaccurate.
+            avg_fam_sized.append([self.get_bin_angle(self.grouped_list[counter]),len(self.grouped_list[counter])])   #place the line, and the group size (line weight) into array
+            self.draw_line(avg_fam_sized[counter][0], 0, 0, 255)  ##Used for debugging. Draws each line family in blue.
             counter += 1
 
+        #Creates a list of the largest 4 line groups.
         average_family_list = avg_fam_sized.copy()
         average_family_list = average_family_list[:4]
-        average_family_list.sort(key=lambda x: x[0][2][0])  #TODO what if the position vectors all have the same x- values?
+        average_family_list.sort(key=lambda x: x[0][2][0])  #Sorts these lines from left to right based off the x value of their intercept vector.
 
+
+        #Out of the top 4 lines, if the two leftmost and two rightmost lines are not similar
+        # angles, the program prints a message letting the user know the angle may be inacccurate. The pairing algorithm has to be used.
         if self.similarSlope(average_family_list[0][0], average_family_list[1][0], .10) == False or self.similarSlope(average_family_list[2][0], average_family_list[3][0], .10) == False:
             self.message = self.message + " Angle may be innacurate. Look at the red and green lines on the image. If they do not match up with B-Flex, measure on Solidworks"
         #     self.pairChecking(avg_fam_sized)
@@ -496,17 +559,18 @@ class BFlexAngle:
         # self.left_line.append([average_family_list[0][0], average_family_list[1][0]])
         # self.right_line.append([average_family_list[2][0],average_family_list[3][0]])
 
-        self.pairChecking(avg_fam_sized)
+        self.pairChecking(avg_fam_sized)  #Searches for the top 2 pairs
 
         left_line=self.left_line[0]
         right_line= self.right_line[0]
+        #Draws the line families from the top 2 groups (used to calculate final angle) in yellow.
         self.draw_line(left_line[0],191,183,73);self.draw_line(left_line[1],191,183,73)
         self.draw_line(right_line[0],191,183,73);self.draw_line(right_line[1],191,183,73)
 
-        actual_left = self.get_bin_angle(left_line)
-        actual_right = self.get_bin_angle(right_line)
-        self.draw_line(actual_left, 0, 255, 0)
-        self.draw_line(actual_right, 255, 0, 0)
+        actual_left = self.get_bin_angle(left_line) #combines the left 2 line families
+        actual_right = self.get_bin_angle(right_line)  #combines the right 2 line families.
+        self.draw_line(actual_left, 0, 255, 0)  #Draws left line in green
+        self.draw_line(actual_right, 255, 0, 0)  #Draws right line in red.
         if (actual_left[1][1] * actual_right[1][
             1] > 0):  ##makes sure the 2 vectors are in opposite diretions, so the angle is the large one (170 rather than 10)
             actual_left[1] = actual_left[
@@ -532,7 +596,7 @@ black.
         self.getImgId(self.png_img.load())
         print(self.imgID)
         gray = cv2.cvtColor(self.array_img, cv2.COLOR_BGR2GRAY)  ## the binary threshold works better if the image goes grayscale first.
-        # (thresh,gray)=cv2.threshold(gray, 165, 255, cv2.THRESH_BINARY)
+        (thresh,gray)=cv2.threshold(gray, 185, 255, cv2.THRESH_BINARY)
         edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
 
         # pixelMap = self.png_img.load()
@@ -562,26 +626,29 @@ black.
         # edges = cv2.Canny(gray, 50, 150, apertureSize=3)  # was 50, 150
         # # #edges = cv2.Canny(self.array_img, 50, 150, apertureSize=3) #was 50, 150
 
-        lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)
-        image_width = int(self.array_img.shape[1])
-        image_height = int(self.array_img.shape[0])
-        # print(image_height, image_width)
+        lines = cv2.HoughLines(edges, 1, np.pi / 180, 3)  #returned the Hough lines in rho, theta form from the canny edge detection.
+
+##Turning lines into bector form.
         counter = 0
         while counter < self.lines_returned:
             for rho, theta in lines[counter]:
                 line = self.getVectorForm(rho, theta)
                 intercept = self.find_y_int(line)
-                if type(intercept) != bool and 0<intercept[0]<self.width:  ## if we were able to find a y=intercept.
+                if type(intercept) != bool and 0<intercept[0]<self.width:  ## if we were able to find a y=intercept on the image.
                     self.masterlist.append([line[0], line[1],
-                                            intercept])  # could make it so if horizontal line, put start vetor as y int vector
+                                            intercept])
                     self.draw_line(line, 225, 0, 225)
-                else:
-                    intercept=self.findHorizontalIntercept(line)  ## this means the lines are pretty horizontal, so need to use new method of getting start vector.
+                else: ## this means the lines are pretty horizontal, so need to use new method of getting start vector.
+                    intercept=self.findHorizontalIntercept(line)
                     self.masterlist.append([line[0], line[1], intercept])
                     self.draw_line(line, 225, 0, 225)
             counter += 1
 
     def DriverFunction(self):
+        """
+        Acts as a wrapper function. Only this function needs to be called to get the articulation angle.
+        :return: the final articulation angle.
+        """
         self.imageFilter()
         binA = []
         binA.extend(self.masterlist)

@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d941405d-7e56-406a-a31b-ded3904ce05e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CropTesting.py" beforeDir="false" afterPath="$PROJECT_DIR$/CropTesting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PairsGilbertIntercepts.py" beforeDir="false" afterPath="$PROJECT_DIR$/PairsGilbertIntercepts.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +17,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="482" column="24" lean-forward="true" selection-start-line="482" selection-start-column="24" selection-end-line="482" selection-end-column="24" />
+            <state relative-caret-position="136">
+              <caret line="369" selection-start-line="369" selection-end-line="369" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -29,11 +29,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-407">
-              <caret line="123" column="46" selection-start-line="123" selection-start-column="46" selection-end-line="123" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#79#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="68">
+              <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -91,9 +88,9 @@
         <option value="$PROJECT_DIR$/exePrototype.py" />
         <option value="$PROJECT_DIR$/YYGilbertIntercepts.py" />
         <option value="$PROJECT_DIR$/exeProtoGilbert.py" />
-        <option value="$PROJECT_DIR$/GUI.py" />
         <option value="$PROJECT_DIR$/test_BFlexAngle.py" />
         <option value="$PROJECT_DIR$/CropTesting.py" />
+        <option value="$PROJECT_DIR$/GUI.py" />
         <option value="$PROJECT_DIR$/PairsGilbertIntercepts.py" />
       </list>
     </option>
@@ -442,7 +439,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566457042721</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Changed the max on get finak angle from looking at the top 7 groups to looking at the top 10 groups">
+      <created>1566493542594</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1566493542594</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -476,15 +480,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.12277228" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49966997" visible="true" weight="0.18644068" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4990099" weight="0.3559322" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49966997" weight="0.18644068" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4990099" visible="true" weight="0.3559322" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32909605" />
@@ -517,7 +520,6 @@
     </layout-to-restore>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Yipee!!!!hooray" />
     <MESSAGE value="Working copy- about to mess with GUI" />
     <MESSAGE value="Have a type error trying to put the image with lines drawn into the pixmap, line 100-101 under GUI. Usually this function takes in a file path- I don't really wanna make and the destroy a fake file every time," />
     <MESSAGE value="Adding testing suite from Antares Large" />
@@ -542,7 +544,8 @@
     <MESSAGE value="norma paring shorter, stilll broken" />
     <MESSAGE value="Pairing fixed, also adjusts ## of lines. About to start dealing with different image qualities" />
     <MESSAGE value="Filters out bad pairs, normal searching function much better now. Adding comments." />
-    <option name="LAST_COMMIT_MESSAGE" value="Filters out bad pairs, normal searching function much better now. Adding comments." />
+    <MESSAGE value="Changed the max on get finak angle from looking at the top 7 groups to looking at the top 10 groups" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed the max on get finak angle from looking at the top 7 groups to looking at the top 10 groups" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -554,8 +557,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PairsGilbertIntercepts.py</url>
-          <line>484</line>
-          <option name="timeStamp" value="79" />
+          <line>579</line>
+          <option name="timeStamp" value="80" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -662,18 +665,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GUI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-407">
-          <caret line="123" column="46" selection-start-line="123" selection-start-column="46" selection-end-line="123" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#79#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="68">
+          <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/numpy/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="60" lean-forward="true" selection-start-line="11" selection-start-column="60" selection-end-line="11" selection-end-column="60" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PairsGilbertIntercepts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="482" column="24" lean-forward="true" selection-start-line="482" selection-start-column="24" selection-end-line="482" selection-end-column="24" />
+        <state relative-caret-position="136">
+          <caret line="369" selection-start-line="369" selection-end-line="369" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
